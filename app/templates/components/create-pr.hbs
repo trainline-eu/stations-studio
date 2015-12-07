@@ -1,0 +1,12 @@
+<form {{action "createPR" on="submit"}}>
+  <div class="form-group">
+    <label for="branch">Branch name</label>
+    {{input value=branchName class="form-control" id="branch"}}
+  </div>
+  <div class="form-group">
+    <label for="commit-message">Commit message</label>
+    {{input value=commitMessage class="form-control" id="commit-message"}}
+  </div>
+  <button class="btn btn-default">Create the Pull Request</button>
+  {{status}}
+</form>

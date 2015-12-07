@@ -4,8 +4,9 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'stations-editor',
     environment: environment,
-    baseURL: '/',
-    locationType: 'auto',
+    baseURL: '/stations-studio',
+    locationType: 'hash',
+    githubApiKey: '1bc5fd8c5fdc77501981',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -20,6 +21,9 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
+    ENV.githubApiKey = '1a4f2cbfbea97219b1da';
+    ENV.baseURL = '/';
+    ENV.locationType = 'auto';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -37,10 +41,6 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
-  }
-
-  if (environment === 'production') {
-
   }
 
   return ENV;

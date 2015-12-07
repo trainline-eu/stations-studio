@@ -1,3 +1,16 @@
-<h2 id="title">Welcome to Ember</h2>
-
+<nav id="navbar" class="navbar navbar-default" style="margin-bottom: 0; border-radius: 0; border-width: 0 0 1px 0;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">CT Stations Studio</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="navbar-form">{{station-autocomplete displayStation='displayStation'}}</li>
+      <li><a {{action 'downloadCSV'}}> <i class="fa fa-fw fa-save"></i> Save locally </a></li>
+      <li>{{#link-to "changelog"}}<i class="fa fa-fw fa-files-o"></i> Changelog{{/link-to}}</li>
+    </ul>
+    {{user-navbar logOut='logOut'}}
+  </div>
+</nav>
+<div class="container-fluid">
 {{outlet}}
+</div>

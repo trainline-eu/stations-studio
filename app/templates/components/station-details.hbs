@@ -1,0 +1,52 @@
+<h2 class='station-details-title'>
+  <label><span><i class="fa fa-fw fa-map-marker"></i></span> {{station-text-input station=station field="name"}} ({{station.id}})</label>
+</h2>
+{{#bs-accordion selected=selected}}
+{{#bs-accordion-item value="1" title="Carriers"}}
+<label><span>Suggestable</span> {{station-checkbox station=station field="is_suggestable"}}</label>
+<label><span>SNCF</span>{{station-checkbox station=station field="sncf_is_enabled"}} {{station-text-input station=station field="sncf_id"}}</label>
+<label><span>iDTGV</span> {{station-checkbox station=station field="idtgv_is_enabled"}} {{station-text-input station=station field="idtgv_id"}}</label>
+<label><span>DB</span> {{station-checkbox station=station field="db_is_enabled"}} {{station-text-input station=station field="db_id"}}</label>
+<label><span>Ouibus</span> {{station-checkbox station=station field="idbus_is_enabled"}} {{station-text-input station=station field="idbus_id"}}</label>
+<label><span>OUIGO</span> {{station-checkbox station=station field="ouigo_is_enabled"}} {{station-text-input station=station field="ouigo_id"}}</label>
+<label><span>Trenitalia</span> {{station-checkbox station=station field="trenitalia_is_enabled"}} {{station-text-input station=station field="trenitalia_id"}}</label>
+<label><span>NTV</span> {{station-checkbox station=station field="ntv_is_enabled"}} {{station-text-input station=station field="ntv_id"}}</label>
+<label><span>HKX</span> {{station-checkbox station=station field="hkx_is_enabled"}} {{station-text-input station=station field="hkx_id"}}</label>
+<label><span>UIC</span> {{station-text-input station=station field="uic"}}</label>
+<label><span>SNCF TVS</span> {{station-text-input station=station field="sncf_tvs_id"}}</label>
+<label><span>UIC8</span> {{station-text-input station=station field="uic8_sncf"}}</label>
+{{/bs-accordion-item}}
+
+{{#bs-accordion-item value="2" title="Properties"}}
+<label><span>slug</span> {{station-text-input station=station field="slug"}}</label>
+<label><span>Longitude</span> {{station-text-input station=station field="longitude"}}</label>
+<label><span>Latitude</span> {{station-text-input station=station field="latitude"}}</label>
+<label><span>Is city?</span> {{station-checkbox station=station field="is_city"}}</label>
+<label><span>Country</span> {{station-text-input station=station field="country"}}</label>
+<label><span>Main station?</span> {{station-checkbox station=station field="is_main_station"}}</label>
+<label><span>Same as</span>  {{station-text-input station=station field="same_as"}}</label>
+<label><span>Timezone</span> {{station-text-input station=station field="time_zone"}}</label>
+<label><span>BLS</span> {{station-checkbox station=station field="sncf_self_service_machine"}}</label>
+{{/bs-accordion-item}}
+
+{{#bs-accordion-item value="3" title="Translations"}}
+{{#each languages as |locale|}}
+<label><span>{{locale}}</span> {{station-text-input station=station field=locale}}</label>
+{{/each}}
+{{/bs-accordion-item}}
+
+{{#bs-accordion-item value="4" title="Parent and children"}}
+{{#if parent}}
+<label><span>Parent</span> {{#link-to "station" parent}}{{parent.name}} ({{parent.id}}){{/link-to}}</label>
+{{/if}}
+{{#if children}}
+<label><span>Children</span>
+  <ul>
+    {{#each children as |child|}}
+    <li>{{#link-to "station" child}}{{child.name}} ({{child.id}}){{/link-to}}</li>
+    {{/each}}
+  </ul>
+</label>
+{{/if}}
+{{/bs-accordion-item}}
+{{/bs-accordion}}
