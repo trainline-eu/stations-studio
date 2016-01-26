@@ -23,7 +23,6 @@ module.exports = function(defaults) {
   app.import('bower_components/github-api/github.js');
   app.import('bower_components/papaparse/papaparse.js');
   app.import('bower_components/mapbox.js/mapbox.js');
-  app.import('bower_components/awesomplete/awesomplete.js');
   app.import('bower_components/filesaver/FileSaver.js');
   return app.toTree();
 };
