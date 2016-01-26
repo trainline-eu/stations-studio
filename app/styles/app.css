@@ -1,4 +1,4 @@
-html, body, .station, body>.ember-view {
+html, body, .station, body>.ember-view, .container-fluid {
     height: 100%;
 }
 
