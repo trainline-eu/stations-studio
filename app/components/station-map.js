@@ -1,9 +1,13 @@
-import Ember from 'ember';
 /* global L */
 
-export default Ember.Component.extend({
+import Component from 'ember-component';
+import computed from 'ember-computed';
+import observer from 'ember-metal/observer';
+import { once } from 'ember-runloop';
+
+export default Component.extend({
   classNames: ['map'],
-  marker: function(){
+  marker: computed(function(){
     return L.marker([this.get('station.latitude'), this.get('station.longitude')], {
       icon: L.mapbox.marker.icon({
         'marker-size': 'large',
@@ -12,9 +16,9 @@ export default Ember.Component.extend({
       }),
       draggable: true
     });
-  }.property(),
+  }),
 
-  map: function() {
+  map: computed(function() {
     let opentransport = L.tileLayer('https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png');
     let mapboxTiles = L.tileLayer('mapbox.streets');
     let map = L.map(this.get('elementId'))
@@ -26,11 +30,11 @@ export default Ember.Component.extend({
     map.addControl(new L.Control.Layers({'Mapbox':mapboxTiles, 'Satellite': Esri_WorldImagery, 'OpenTransport': opentransport }));
     L.control.scale().addTo(map);
     return map;
-  }.property(),
+  }),
 
-  _coordsDidChange: function(){
-    Ember.run.once(this, 'coordsDidChange');
-  }.observes('station.longitude', 'station.latitude'),
+  _coordsDidChange: observer('station.longitude', 'station.latitude', function(){
+    once(this, 'coordsDidChange');
+  }),
 
   coordsDidChange(){
     let marker = this.get('marker');

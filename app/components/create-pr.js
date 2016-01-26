@@ -1,7 +1,10 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
-  stations: Ember.inject.service(),
+import Component from 'ember-component';
+import service from 'ember-service/inject';
+
+export default Component.extend({
+  stations: service(),
   model: null,
   status: '',
   branchName: null,

@@ -1,10 +1,11 @@
 /* global saveAs */
 
-import Ember from 'ember';
+import Route from 'ember-route';
+import service from 'ember-service/inject';
 
-export default Ember.Route.extend({
-  stations: Ember.inject.service(),
-  user: Ember.inject.service(),
+export default Route.extend({
+  stations: service(),
+  user: service(),
 
   beforeModel() {
     if(!this.get("user.loggedIn")) {
@@ -19,11 +20,11 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    displayStation: function(station) {
+    displayStation(station) {
       this.transitionTo("station", station);
     },
 
-    downloadCSV: function() {
+    downloadCSV() {
       let csv = this.get('stations').getCSV();
       var blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
       saveAs(blob, "stations.csv", true);
