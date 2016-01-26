@@ -21,31 +21,6 @@ h2 {
     white-space: nowrap;
 }
 
-dt {
-    float: left;
-    clear: left;
-    width: 120px;
-    text-align: right;
-}
-
-dt:after {
-    content: " :";
-}
-
-dd {
-    margin: 0 0 0 130px;
-    padding: 0 0 0 0;
-}
-
-/* we need some content in the <dd> to ensure it has the vertical height*/
-dd:after {
-  content: " "
-}
-
-dl {
-margin-top: 20px;
-}
-
 .progress {
   text-align: center;
   font-size: 12px;
