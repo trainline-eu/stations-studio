@@ -60,9 +60,9 @@ export default Service.extend({
     let getBlob = Ember.RSVP.denodeify(repo.getBlob);
 
     // Used for debugging purposes to save some time
-    var requestPromise = new Ember.RSVP.Promise(function(resolve, reject) {
-      $.get("stations.csv", resolve).fail(reject);
-    });
+    // var requestPromise = new Ember.RSVP.Promise(function(resolve, reject) {
+    //   Ember.$.get("stations.csv", resolve).fail(reject);
+    // });
 
      return getTree('master')
      .then(getFileSha)

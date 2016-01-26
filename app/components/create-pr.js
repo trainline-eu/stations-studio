@@ -10,7 +10,7 @@ export default Ember.Component.extend({
     createPR() {
       this.set('status', 'Creating pull request<i class="fa fa-spin fa-spinner"></i>');
       this.get('stations').createPullRequest(this.get('branchName'), this.get('commitMessage'))
-      .then((res) => {
+      .then(() => {
         this.set('status', '<i class="fa fa-check"></i>Pull Request created!');
       }).catch((err) => {
         Ember.Logger.error('PR error', err);
