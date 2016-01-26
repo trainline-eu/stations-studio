@@ -91,3 +91,7 @@ margin-top: 20px;
   flex: 0 0 30px;
   text-align: center;
 }
+
+.nav li a {
+  cursor: pointer;
+}
