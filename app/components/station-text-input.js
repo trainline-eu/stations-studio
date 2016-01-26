@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import Component from 'ember-component';
+import service from 'ember-service/inject';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'span',
   classNames: ['station-text-input'],
-  stations: Ember.inject.service('stations'),
+  stations: service(),
   station: null,
   field: null,
 

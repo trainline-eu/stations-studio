@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import Route from 'ember-route';
+import service from 'ember-service/inject';
 
-export default Ember.Route.extend({
-  user: Ember.inject.service(),
+export default Route.extend({
+  user: service(),
   actions: {
-    logOut: function() {
+    logOut() {
       this.get('user').deleteSession();
       this.transitionTo('index');
     },

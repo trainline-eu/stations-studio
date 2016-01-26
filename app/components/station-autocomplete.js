@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import Component from 'ember-component';
+import service from 'ember-service/inject';
 
-export default Ember.Component.extend({
-  stations: Ember.inject.service('stations'),
+export default Component.extend({
+  stations: service(),
 
-  bindSelectEvent: Ember.on('didInsertElement', function() {
+  didInsertElement() {
     this.$('#autocomplete-input').on('select', (evt) => {
       this.sendAction('displayStation', evt.target.value);
       evt.target.value = '';
     });
-  }),
+  }
 });

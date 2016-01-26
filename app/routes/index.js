@@ -1,8 +1,9 @@
-import Ember from 'ember';
+import Route from 'ember-route';
+import service from 'ember-service/inject';
 import config from '../config/environment';
 
-export default Ember.Route.extend({
-  user: Ember.inject.service(),
+export default Route.extend({
+  user: service(),
 
   beforeModel() {
     this.get("user").restoreSession().then((loggedIn) => {

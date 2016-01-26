@@ -1,7 +1,9 @@
-import Service from 'ember-service';
-import Ember from 'ember';
-
 /* globals Github, Papa */
+
+import Ember from 'ember';
+import computed from 'ember-computed';
+import service from 'ember-service/inject';
+import Service from 'ember-service';
 
 function parseCSV(contents) {
   return new Ember.RSVP.Promise(function(resolve, reject){
@@ -10,7 +12,7 @@ function parseCSV(contents) {
       header: true,
       complete: resolve(result),
       error: reject,
-      step: function(row) {
+      step(row) {
         if(row.data[0].id) {
           result.push(row.data[0]);
         }
@@ -38,11 +40,11 @@ function handleError(err) {
 }
 
 export default Service.extend({
-  all: Ember.computed(function() { return []; }),
+  all: computed(function() { return []; }),
   isLoaded: false,
   diff: [],
   repo: null,
-  user: Ember.inject.service(),
+  user: service(),
 
   load() {
     if(this.isLoaded) {

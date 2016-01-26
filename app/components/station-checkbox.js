@@ -1,15 +1,17 @@
-import Ember from 'ember';
+import Component from 'ember-component';
+import computed from 'ember-computed';
+import service from 'ember-service/inject';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'span',
   classNames: ['station-checkbox'],
-  stations: Ember.inject.service('stations'),
+  stations: service(),
   station: null,
   field: null,
 
-  checked: function() {
+  checked: computed('station', function() {
     return this.get(`station.${this.field}`) === 't';
-  }.property('station'),
+  }),
 
   actions: {
     onChange(checked){

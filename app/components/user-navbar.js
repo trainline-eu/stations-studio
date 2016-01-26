@@ -1,6 +1,8 @@
-import Ember from 'ember';
-export default Ember.Component.extend({
-  user: Ember.inject.service(''),
+import Component from 'ember-component';
+import service from 'ember-service/inject';
+
+export default Component.extend({
+  user: service(),
   actions: {
     logOut() {
       this.sendAction('logOut');
