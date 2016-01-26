@@ -15,12 +15,12 @@ export default Ember.Component.extend({
   }.property(),
 
   map: function() {
-    let opentransport = L.tileLayer('http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png');
+    let opentransport = L.tileLayer('https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png');
     let mapboxTiles = L.tileLayer('mapbox.streets');
     let map = L.map(this.get('elementId'))
     .addLayer(opentransport)
     .setView([this.get('station.latitude'), this.get('station.longitude')], 12);
-    let Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    let Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
     map.addControl(new L.Control.Layers({'Mapbox':mapboxTiles, 'Satellite': Esri_WorldImagery, 'OpenTransport': opentransport }));
