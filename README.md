@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/captaintrain/stations-studio.svg?branch=master)](https://travis-ci.org/captaintrain/stations-studio)
+
 # Stations-editor
 
 This README outlines the details of collaborating on this Ember application.
