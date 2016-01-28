@@ -39,9 +39,11 @@ export default Component.extend({
   coordsDidChange(){
     let marker = this.get('marker');
     let map = this.get('map');
-    let latLng = L.latLng(this.get('station.latitude'), this.get('station.longitude'));
-    marker.setLatLng(latLng);
-    map.panTo(latLng);
+    if(this.get('station.latitude') && this.get('station.longitude')) {
+      let latLng = L.latLng(this.get('station.latitude'), this.get('station.longitude'));
+      marker.setLatLng(latLng);
+      map.panTo(latLng);
+    }
   },
 
   didInsertElement() {
