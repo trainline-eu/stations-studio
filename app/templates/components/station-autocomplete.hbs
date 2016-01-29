@@ -1,8 +1,8 @@
-<input id='autocomplete-input' list="stations-list" class="form-control" placeholder="Search station…" />
 {{#if stations.isLoaded}}
-<datalist id='stations-list' >
-  {{#each stations.all as |station|}}
-  <option value="{{station.id}}">{{station.name}} ({{station.id}})</option>
-  {{/each}}
-</datalist>
+{{#power-select search=(action "findStation")
+                searchField="name"
+                selected=selected
+                onchange=(action "displayStation") as |station|}}
+{{#if station.is_suggestable}}<i class="fa fa-fw fa-check"></i>{{/if}} {{station.name}} ({{station.id}})
+{{/power-select}}
 {{/if}}

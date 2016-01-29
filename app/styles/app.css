@@ -70,3 +70,7 @@ h2 {
 .nav li a {
   cursor: pointer;
 }
+
+.ember-power-select {
+  width: 200px;
+}
