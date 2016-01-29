@@ -2,6 +2,7 @@
 {{#power-select search=(action "findStation")
                 searchField="name"
                 selected=selected
+                placeholder="Search station…"
                 onchange=(action "displayStation") as |station|}}
 {{#if station.is_suggestable}}<i class="fa fa-fw fa-check"></i>{{/if}} {{station.name}} ({{station.id}})
 {{/power-select}}
