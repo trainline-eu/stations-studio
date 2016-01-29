@@ -1,7 +1,7 @@
 <h2 class='station-details-title'>
   <label><span><i class="fa fa-fw fa-map-marker"></i></span> {{station-text-input station=station field="name"}} ({{station.id}})</label>
 </h2>
-{{#bs-accordion selected=selected}}
+{{#bs-accordion selected="1"}}
 {{#bs-accordion-item value="1" title="Carriers"}}
 <label><span>Suggestable</span> {{station-checkbox station=station field="is_suggestable"}}</label>
 <label><span>SNCF</span>{{station-checkbox station=station field="sncf_is_enabled"}} {{station-text-input station=station field="sncf_id"}}</label>
