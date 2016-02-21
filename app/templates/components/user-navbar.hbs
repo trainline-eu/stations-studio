@@ -1,14 +1,21 @@
-<ul class="nav navbar-nav navbar-right" style="margin-right: -15px;">
-  <li class="navbar-text">
-    <img src="{{user.user.avatar_url}}" style="width: 32px;  border-radius: 16px; margin: -10px 2px" /> {{user.user.login}}
-  </li>
-  <li>
-    <a href="https://github.com/settings/connections/applications/1bc5fd8c5fdc77501981" target="_blank">
-      <i class="fa fa-fw fa-ban"></i> Revoke GitHub access…
-    </a>
-  </li>
-  <li role="separator" class="divider"></li>
-  <li>
-    <a {{action "logOut"}} id="logout-link"><i class="fa fa-fw fa-sign-out"></i> Log out from CTSS</a>
-  </li>
-</ul>
+{{#if user.loggedIn}}
+  <ul class="nav navbar-nav">
+    <li class="navbar-form">{{station-autocomplete displayStation='displayStation'}}</li>
+    <li><a {{action 'downloadCSV'}}> <i class="fa fa-fw fa-save"></i> Save locally </a></li>
+    <li>{{#link-to "changelog"}}<i class="fa fa-fw fa-files-o"></i> Changelog{{/link-to}}</li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right" style="margin-right: -15px;">
+      <li class="navbar-text">
+        <img src="{{user.user.avatar_url}}" style="width: 32px;  border-radius: 16px; margin: -10px 2px" /> {{user.user.login}} {{hey}}
+      </li>
+      <li>
+        <a href="https://github.com/settings/connections/applications/1bc5fd8c5fdc77501981" target="_blank">
+          <i class="fa fa-fw fa-ban"></i> Revoke GitHub access…
+        </a>
+      </li>
+      <li role="separator" class="divider"></li>
+      <li>
+        <a {{action "logOut"}} id="logout-link"><i class="fa fa-fw fa-sign-out"></i> Log out from CTSS</a>
+      </li>
+  </ul>
+{{/if}}
