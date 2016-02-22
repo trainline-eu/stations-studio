@@ -1,6 +1,8 @@
 {{#if user.loggedIn}}
   <ul class="nav navbar-nav">
-    <li class="navbar-form">{{station-autocomplete displayStation='displayStation'}}</li>
+    <li class="navbar-form station-autocomplete">
+      {{station-autocomplete displayStation='displayStation'}}
+    </li>
     <li><a {{action 'downloadCSV'}}> <i class="fa fa-fw fa-save"></i> Save locally </a></li>
     <li>{{#link-to "changelog"}}<i class="fa fa-fw fa-files-o"></i> Changelog{{/link-to}}</li>
   </ul>
