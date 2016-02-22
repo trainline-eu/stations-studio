@@ -2,6 +2,10 @@ html, body, .station, body>.ember-view, .container-fluid {
     height: 100%;
 }
 
+.station-autocomplete {
+  margin-top: 12px;
+}
+
 div#sidebar {
     position: absolute;
     height: calc(100vh - 50px);
@@ -9,6 +13,10 @@ div#sidebar {
     overflow-x: hidden;
     width: 400px;
     padding: 0 20px;
+}
+
+.panel-heading {
+  cursor: pointer;
 }
 
 div.map {

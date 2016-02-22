@@ -20,10 +20,6 @@ export default Route.extend({
   },
 
   actions: {
-    displayStation(station) {
-      this.transitionTo("station", station);
-    },
-
     downloadCSV() {
       let csv = this.get('stations').getCSV();
       var blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
