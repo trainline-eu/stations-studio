@@ -15,6 +15,10 @@ div#sidebar {
     padding: 0 20px;
 }
 
+.panel-heading {
+  cursor: pointer;
+}
+
 div.map {
     height: calc(100% - 51px);
     margin-left: 400px;
