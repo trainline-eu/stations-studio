@@ -6,6 +6,9 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add build options here
     sourcemaps: ['js'],
+    // Fix issue with minification + sourcemap in FileSave.js
+    // See https://github.com/ember-cli/ember-cli-uglify/issues/4
+    minifyJS: { enabled: false }
   });
 
   // Use `app.import` to add additional libraries to the generated
