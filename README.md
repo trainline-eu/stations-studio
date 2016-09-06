@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/captaintrain/stations-studio.svg?branch=master)](https://travis-ci.org/captaintrain/stations-studio)
+[![Build Status](https://travis-ci.org/trainline-eu/stations-studio.svg?branch=master)](https://travis-ci.org/trainline-eu/stations-studio)
 
 # Stations-editor
 
