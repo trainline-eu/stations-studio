@@ -1,8 +1,0 @@
-<input id='autocomplete-input' list="stations-list" class="form-control" placeholder="Search station…" />
-{{#if stations.isLoaded}}
-<datalist id='stations-list' >
-  {{#each stations.all as |station|}}
-  <option value="{{station.id}}">{{station.name}} ({{station.id}})</option>
-  {{/each}}
-</datalist>
-{{/if}}
