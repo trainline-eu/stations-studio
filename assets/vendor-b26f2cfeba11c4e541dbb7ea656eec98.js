@@ -62415,6 +62415,280 @@ define("ember/load-initializers",
       };
     }
   });
+;/* globals Ember, Proxy, define */
+(function() {
+  'use strict';
+
+  var HAS_NATIVE_PROXY = typeof Proxy === 'function';
+
+  var SAFE_LOOKUP_FACTORY_METHOD = '_lookupFactory';
+  function factoryFor(fullName, options) {
+    var factory = this[SAFE_LOOKUP_FACTORY_METHOD](fullName, options);
+
+    if (!factory) {
+      return;
+    }
+
+    var FactoryManager = {
+      class: factory,
+      create: function() {
+        return this.class.create.apply(this.class, arguments);
+      }
+    };
+
+    Ember.runInDebug(function() {
+      if (HAS_NATIVE_PROXY) {
+        var validator = {
+          get: function(obj, prop) {
+            if (prop !== 'class' && prop !== 'create') {
+              throw new Error('You attempted to access "' + prop + '" on a factory manager created by container#factoryFor. "' + prop + '" is not a member of a factory manager.');
+            }
+
+            return obj[prop];
+          },
+          set: function(obj, prop, value) {
+            throw new Error('You attempted to set "' + prop + '" on a factory manager created by container#factoryFor. A factory manager is a read-only construct.');
+          }
+        };
+
+        // Note:
+        // We have to proxy access to the manager here so that private property
+        // access doesn't cause the above errors to occur.
+        var m = FactoryManager;
+        var proxiedManager = {
+          class: m.class,
+          create: function(props) {
+            return m.create(props);
+          }
+        };
+
+        FactoryManager = new Proxy(proxiedManager, validator);
+      }
+    });
+
+    return FactoryManager;
+  }
+
+  if (typeof define === 'function') {
+    define('ember-factory-for-polyfill/vendor/ember-factory-for-polyfill/index', ['exports'], function(exports) {
+      exports._factoryFor = factoryFor;
+
+      exports._updateSafeLookupFactoryMethod = function(methodName) {
+        SAFE_LOOKUP_FACTORY_METHOD = methodName;
+      };
+
+      return exports;
+    });
+  }
+
+  var FactoryForMixin = Ember.Mixin.create({
+    factoryFor: factoryFor
+  });
+
+  // added in Ember 2.8
+  if (Ember.ApplicationInstance) {
+    // augment the main application's "owner"
+    Ember.ApplicationInstance.reopen(FactoryForMixin);
+  } else {
+    // in Ember < 2.8 the Ember.ApplicationInstance is not
+    // exposed globally, so we have to monkey patch the
+    // `Ember.Application#buildInstance` method to ensure
+    // that the built instance has a `factoryFor` method
+    // this gives us support for Ember 2.3 - 2.7
+    Ember.Application.reopen({
+      buildInstance: function(_options) {
+        var options = _options || {};
+        options.factoryFor = factoryFor;
+
+        var instance = this._super(options);
+
+        return instance;
+      }
+    });
+  }
+
+  // added in Ember 2.3
+  if (Ember._ContainerProxyMixin) {
+    // supports ember-test-helpers's build-registry (and other tooling that use
+    // Ember._ContainerProxyMixin to emulate an "owner")
+    var ContainerProxyMixinWithFactoryFor = Ember.Mixin.create(Ember._ContainerProxyMixin, FactoryForMixin);
+    Ember._ContainerProxyMixin = ContainerProxyMixinWithFactoryFor;
+  }
+})();
+
+;/* globals Ember, require */
+
+(function() {
+  var _Ember;
+
+  if (typeof Ember !== 'undefined') {
+    _Ember = Ember;
+  } else {
+    _Ember = require('ember').default;
+  }
+
+  if (!_Ember.getOwner) {
+    var CONTAINER = '__' + (Date.now()) + '_container';
+    var REGISTRY = '__' + (Date.now()) + '_registry';
+    var OWNER = '__' + (Date.now()) + '_owner';
+    var SAFE_LOOKUP_FACTORY_METHOD = '__' + (Date.now()) + '_lookupFactory';
+
+    var factoryFor;
+    if (typeof require === 'function') {
+      try {
+        var moduleResult = require('ember-factory-for-polyfill/vendor/ember-factory-for-polyfill/index');
+        if (moduleResult) {
+          factoryFor = moduleResult._factoryFor;
+          moduleResult._updateSafeLookupFactoryMethod(SAFE_LOOKUP_FACTORY_METHOD);
+        }
+      } catch(e) {
+        // if not found, we just don't support factoryFor
+      }
+    }
+
+    var FakeOwner = function FakeOwner(object) {
+      this[CONTAINER] = object.container;
+
+      if (_Ember.Registry) {
+        // object.container._registry is used by 1.11
+        this[REGISTRY] = object.container.registry || object.container._registry;
+      } else {
+        // Ember < 1.12
+        this[REGISTRY] = object.container;
+      }
+    };
+
+    FakeOwner.prototype = {
+      constructor: FakeOwner,
+
+      factoryFor: factoryFor,
+
+      // ContainerProxyMixin methods
+      //
+      // => http://emberjs.com/api/classes/ContainerProxyMixin.html
+      //
+      lookup: function() {
+        var container = this[CONTAINER];
+
+        return container.lookup.apply(container, arguments);
+      },
+
+      _lookupFactory: function() {
+        Ember.deprecate(
+          'Using "_lookupFactory" is deprecated. Please use container.factoryFor instead.',
+          false,
+          { id: 'container-lookupFactory', until: '2.13.0', url: 'TODO' }
+        );
+
+        return this[SAFE_LOOKUP_FACTORY_METHOD].apply(this, arguments);
+      },
+
+      ownerInjection: function() {
+        return {
+          container: this[CONTAINER]
+        };
+      },
+
+      // RegistryProxyMixin methods
+      //
+      // => http://emberjs.com/api/classes/RegistryProxyMixin.html
+      //
+      hasRegistration: function() {
+        var registry = this[REGISTRY];
+
+        return registry.has.apply(registry, arguments);
+      },
+
+      inject: function() {
+        var registry = this[REGISTRY];
+
+        return registry.injection.apply(registry, arguments);
+      },
+
+      register: function() {
+        var registry = this[REGISTRY];
+
+        return registry.register.apply(registry, arguments);
+      },
+
+      registerOption: function() {
+        var registry = this[REGISTRY];
+
+        return registry.option.apply(registry, arguments);
+      },
+
+      registerOptions: function() {
+        var registry = this[REGISTRY];
+
+        return registry.options.apply(registry, arguments);
+      },
+
+      registerOptionsForType: function() {
+        var registry = this[REGISTRY];
+
+        return registry.optionsForType.apply(registry, arguments);
+      },
+
+      registeredOption: function() {
+        var registry = this[REGISTRY];
+
+        return registry.getOption.apply(registry, arguments);
+      },
+
+      registeredOptions: function() {
+        var registry = this[REGISTRY];
+
+        return registry.getOptions.apply(registry, arguments);
+      },
+
+      registeredOptionsForType: function(type) {
+        var registry = this[REGISTRY];
+
+        if (registry.getOptionsForType) {
+          return registry.getOptionsForType.apply(registry, arguments);
+        } else {
+          // used for Ember 1.10
+          return registry._typeOptions[type];
+        }
+      },
+
+      resolveRegistration: function() {
+        var registry = this[REGISTRY];
+
+        return registry.resolve.apply(registry, arguments);
+      },
+
+      unregister: function() {
+        var registry = this[REGISTRY];
+
+        return registry.unregister.apply(registry, arguments);
+      }
+    };
+
+    FakeOwner.prototype[SAFE_LOOKUP_FACTORY_METHOD] = function() {
+      var container = this[CONTAINER];
+
+      return container.lookupFactory.apply(container, arguments);
+    };
+
+    Object.defineProperty(_Ember, 'getOwner', {
+      get: function() {
+        return function(object) {
+          var container = object.container;
+          if (!container) { return; }
+
+          if (!container[OWNER]) {
+            var owner = new FakeOwner(object);
+            container[OWNER] = owner;
+          }
+
+          return container[OWNER];
+        };
+      }
+    });
+  }
+})();
+
 ;/* globals define */
 
 function createDeprecatedModule(moduleId) {
@@ -63475,12 +63749,45 @@ createDeprecatedModule('resolver');
 
 ;/*!
 	Papa Parse
-	v4.1.2
+	v4.1.4
 	https://github.com/mholt/PapaParse
 */
-(function(global)
+(function(root, factory)
 {
-	"use strict";
+	if (typeof define === 'function' && define.amd)
+	{
+		// AMD. Register as an anonymous module.
+		define([], factory);
+	}
+	else if (typeof module === 'object' && module.exports)
+	{
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	}
+	else
+	{
+		// Browser globals (root is window)
+		root.Papa = factory();
+	}
+}(this, function()
+{
+	'use strict';
+
+	var global = (function () {
+		// alternative method, similar to `Function('return this')()`
+		// but without using `eval` (which is disabled when
+		// using Content Security Policy).
+
+		if (typeof self !== 'undefined') { return self; }
+		if (typeof window !== 'undefined') { return window; }
+		if (typeof global !== 'undefined') { return global; }
+
+        // When running tests none of the above have been defined
+        return {};
+	})();
+
 
 	var IS_WORKER = !global.document && !!global.postMessage,
 		IS_PAPA_WORKER = IS_WORKER && /(\?|&)papaworker(=|&|$)/.test(global.location.search),
@@ -63494,15 +63801,15 @@ createDeprecatedModule('resolver');
 
 	Papa.RECORD_SEP = String.fromCharCode(30);
 	Papa.UNIT_SEP = String.fromCharCode(31);
-	Papa.BYTE_ORDER_MARK = "\ufeff";
-	Papa.BAD_DELIMITERS = ["\r", "\n", "\"", Papa.BYTE_ORDER_MARK];
+	Papa.BYTE_ORDER_MARK = '\ufeff';
+	Papa.BAD_DELIMITERS = ['\r', '\n', '"', Papa.BYTE_ORDER_MARK];
 	Papa.WORKERS_SUPPORTED = !IS_WORKER && !!global.Worker;
 	Papa.SCRIPT_PATH = null;	// Must be set by your code if you use workers and this lib is loaded asynchronously
 
 	// Configurable chunk sizes for local and remote files, respectively
 	Papa.LocalChunkSize = 1024 * 1024 * 10;	// 10 MB
 	Papa.RemoteChunkSize = 1024 * 1024 * 5;	// 5 MB
-	Papa.DefaultDelimiter = ",";			// Used if not specified and detection fails
+	Papa.DefaultDelimiter = ',';			// Used if not specified and detection fails
 
 	// Exposed for testing and development only
 	Papa.Parser = Parser;
@@ -63510,22 +63817,6 @@ createDeprecatedModule('resolver');
 	Papa.NetworkStreamer = NetworkStreamer;
 	Papa.FileStreamer = FileStreamer;
 	Papa.StringStreamer = StringStreamer;
-
-	if (typeof module !== 'undefined' && module.exports)
-	{
-		// Export to Node...
-		module.exports = Papa;
-	}
-	else if (isFunction(global.define) && global.define.amd)
-	{
-		// Wireup with RequireJS
-		define(function() { return Papa; });
-	}
-	else
-	{
-		// ...or as browser global
-		global.Papa = Papa;
-	}
 
 	if (global.jQuery)
 	{
@@ -63537,11 +63828,11 @@ createDeprecatedModule('resolver');
 
 			this.each(function(idx)
 			{
-				var supported = $(this).prop('tagName').toUpperCase() == "INPUT"
-								&& $(this).attr('type').toLowerCase() == "file"
+				var supported = $(this).prop('tagName').toUpperCase() === 'INPUT'
+								&& $(this).attr('type').toLowerCase() === 'file'
 								&& global.FileReader;
 
-				if (!supported || !this.files || this.files.length == 0)
+				if (!supported || !this.files || this.files.length === 0)
 					return true;	// continue to next input element
 
 				for (var i = 0; i < this.files.length; i++)
@@ -63560,7 +63851,7 @@ createDeprecatedModule('resolver');
 
 			function parseNextFile()
 			{
-				if (queue.length == 0)
+				if (queue.length === 0)
 				{
 					if (isFunction(options.complete))
 						options.complete();
@@ -63575,12 +63866,12 @@ createDeprecatedModule('resolver');
 
 					if (typeof returned === 'object')
 					{
-						if (returned.action == "abort")
+						if (returned.action === 'abort')
 						{
-							error("AbortError", f.file, f.inputElem, returned.reason);
+							error('AbortError', f.file, f.inputElem, returned.reason);
 							return;	// Aborts all queued files immediately
 						}
-						else if (returned.action == "skip")
+						else if (returned.action === 'skip')
 						{
 							fileComplete();	// parse the next file in the queue, if any
 							return;
@@ -63588,7 +63879,7 @@ createDeprecatedModule('resolver');
 						else if (typeof returned.config === 'object')
 							f.instanceConfig = $.extend(f.instanceConfig, returned.config);
 					}
-					else if (returned == "skip")
+					else if (returned === 'skip')
 					{
 						fileComplete();	// parse the next file in the queue, if any
 						return;
@@ -63650,6 +63941,7 @@ createDeprecatedModule('resolver');
 	function CsvToJson(_input, _config)
 	{
 		_config = _config || {};
+		_config.dynamicTyping = _config.dynamicTyping || false;
 
 		if (_config.worker && Papa.WORKERS_SUPPORTED)
 		{
@@ -63696,7 +63988,7 @@ createDeprecatedModule('resolver');
 
 	function JsonToCsv(_input, _config)
 	{
-		var _output = "";
+		var _output = '';
 		var _fields = [];
 
 		// Default configuration
@@ -63704,13 +63996,21 @@ createDeprecatedModule('resolver');
 		/** whether to surround every datum with quotes */
 		var _quotes = false;
 
+		/** whether to write headers */
+		var _writeHeader = true;
+
 		/** delimiting character */
-		var _delimiter = ",";
+		var _delimiter = ',';
 
 		/** newline character(s) */
-		var _newline = "\r\n";
+		var _newline = '\r\n';
+
+		/** quote character */
+		var _quoteChar = '"';
 
 		unpackConfig();
+
+		var quoteCharRegex = new RegExp(_quoteChar, 'g');
 
 		if (typeof _input === 'string')
 			_input = JSON.parse(_input);
@@ -63730,19 +64030,22 @@ createDeprecatedModule('resolver');
 			if (_input.data instanceof Array)
 			{
 				if (!_input.fields)
-					_input.fields = _input.data[0] instanceof Array
+					_input.fields =  _input.meta && _input.meta.fields;
+
+				if (!_input.fields)
+					_input.fields =  _input.data[0] instanceof Array
 									? _input.fields
 									: objectKeys(_input.data[0]);
 
 				if (!(_input.data[0] instanceof Array) && typeof _input.data[0] !== 'object')
-					_input.data = [_input.data];	// handles input like [1,2,3] or ["asdf"]
+					_input.data = [_input.data];	// handles input like [1,2,3] or ['asdf']
 			}
 
 			return serialize(_input.fields || [], _input.data || []);
 		}
 
 		// Default (any valid paths should return before this)
-		throw "exception: Unable to serialize unrecognized input";
+		throw 'exception: Unable to serialize unrecognized input';
 
 
 		function unpackConfig()
@@ -63751,8 +64054,8 @@ createDeprecatedModule('resolver');
 				return;
 
 			if (typeof _config.delimiter === 'string'
-				&& _config.delimiter.length == 1
-				&& Papa.BAD_DELIMITERS.indexOf(_config.delimiter) == -1)
+				&& _config.delimiter.length === 1
+				&& Papa.BAD_DELIMITERS.indexOf(_config.delimiter) === -1)
 			{
 				_delimiter = _config.delimiter;
 			}
@@ -63763,6 +64066,12 @@ createDeprecatedModule('resolver');
 
 			if (typeof _config.newline === 'string')
 				_newline = _config.newline;
+
+			if (typeof _config.quoteChar === 'string')
+				_quoteChar = _config.quoteChar;
+
+			if (typeof _config.header === 'boolean')
+				_writeHeader = _config.header;
 		}
 
 
@@ -63780,7 +64089,7 @@ createDeprecatedModule('resolver');
 		/** The double for loop that iterates the data and writes out a CSV string including header row */
 		function serialize(fields, data)
 		{
-			var csv = "";
+			var csv = '';
 
 			if (typeof fields === 'string')
 				fields = JSON.parse(fields);
@@ -63791,7 +64100,7 @@ createDeprecatedModule('resolver');
 			var dataKeyedByField = !(data[0] instanceof Array);
 
 			// If there a header row, write it first
-			if (hasHeader)
+			if (hasHeader && _writeHeader)
 			{
 				for (var i = 0; i < fields.length; i++)
 				{
@@ -63826,19 +64135,19 @@ createDeprecatedModule('resolver');
 		/** Encloses a value around quotes if needed (makes a value safe for CSV insertion) */
 		function safe(str, col)
 		{
-			if (typeof str === "undefined" || str === null)
-				return "";
+			if (typeof str === 'undefined' || str === null)
+				return '';
 
-			str = str.toString().replace(/"/g, '""');
+			str = str.toString().replace(quoteCharRegex, _quoteChar+_quoteChar);
 
 			var needsQuotes = (typeof _quotes === 'boolean' && _quotes)
 							|| (_quotes instanceof Array && _quotes[col])
 							|| hasAny(str, Papa.BAD_DELIMITERS)
 							|| str.indexOf(_delimiter) > -1
-							|| str.charAt(0) == ' '
-							|| str.charAt(str.length - 1) == ' ';
+							|| str.charAt(0) === ' '
+							|| str.charAt(str.length - 1) === ' ';
 
-			return needsQuotes ? '"' + str + '"' : str;
+			return needsQuotes ? _quoteChar + str + _quoteChar : str;
 		}
 
 		function hasAny(str, substrings)
@@ -63858,7 +64167,7 @@ createDeprecatedModule('resolver');
 		this._finished = false;
 		this._input = null;
 		this._baseIndex = 0;
-		this._partialLine = "";
+		this._partialLine = '';
 		this._rowCount = 0;
 		this._start = 0;
 		this._nextChunk = null;
@@ -63883,15 +64192,15 @@ createDeprecatedModule('resolver');
 
 			// Rejoin the line we likely just split in two by chunking the file
 			var aggregate = this._partialLine + chunk;
-			this._partialLine = "";
+			this._partialLine = '';
 
 			var results = this._handle.parse(aggregate, this._baseIndex, !this._finished);
-			
+
 			if (this._handle.paused() || this._handle.aborted())
 				return;
-			
+
 			var lastIndex = results.meta.cursor;
-			
+
 			if (!this._finished)
 			{
 				this._partialLine = aggregate.substring(lastIndex - this._baseIndex);
@@ -63927,7 +64236,7 @@ createDeprecatedModule('resolver');
 			}
 
 			if (finishedIncludingPreview && isFunction(this._config.complete) && (!results || !results.meta.aborted))
-				this._config.complete(this._completeResults);
+				this._config.complete(this._completeResults, this._input);
 
 			if (!finishedIncludingPreview && (!results || !results.meta.paused))
 				this._nextChunk();
@@ -64003,20 +64312,25 @@ createDeprecatedModule('resolver');
 			}
 
 			xhr = new XMLHttpRequest();
-			
+
+			if (this._config.withCredentials)
+			{
+				xhr.withCredentials = this._config.withCredentials;
+			}
+
 			if (!IS_WORKER)
 			{
 				xhr.onload = bindFunction(this._chunkLoaded, this);
 				xhr.onerror = bindFunction(this._chunkError, this);
 			}
 
-			xhr.open("GET", this._input, !IS_WORKER);
-			
+			xhr.open('GET', this._input, !IS_WORKER);
+
 			if (this._config.chunkSize)
 			{
 				var end = this._start + this._config.chunkSize - 1;	// minus one because byte range is inclusive
-				xhr.setRequestHeader("Range", "bytes="+this._start+"-"+end);
-				xhr.setRequestHeader("If-None-Match", "webkit-no-cache"); // https://bugs.webkit.org/show_bug.cgi?id=82672
+				xhr.setRequestHeader('Range', 'bytes='+this._start+'-'+end);
+				xhr.setRequestHeader('If-None-Match', 'webkit-no-cache'); // https://bugs.webkit.org/show_bug.cgi?id=82672
 			}
 
 			try {
@@ -64026,7 +64340,7 @@ createDeprecatedModule('resolver');
 				this._chunkError(err.message);
 			}
 
-			if (IS_WORKER && xhr.status == 0)
+			if (IS_WORKER && xhr.status === 0)
 				this._chunkError();
 			else
 				this._start += this._config.chunkSize;
@@ -64055,8 +64369,11 @@ createDeprecatedModule('resolver');
 
 		function getFileSize(xhr)
 		{
-			var contentRange = xhr.getResponseHeader("Content-Range");
-			return parseInt(contentRange.substr(contentRange.lastIndexOf("/") + 1));
+			var contentRange = xhr.getResponseHeader('Content-Range');
+			if (contentRange === null) { // no content range, then finish!
+        			return -1;
+            		}
+			return parseInt(contentRange.substr(contentRange.lastIndexOf('/') + 1));
 		}
 	}
 	NetworkStreamer.prototype = Object.create(ChunkStreamer.prototype);
@@ -64192,7 +64509,7 @@ createDeprecatedModule('resolver');
 					processResults();
 
 					// It's possbile that this line was empty and there's no row here after all
-					if (_results.data.length == 0)
+					if (_results.data.length === 0)
 						return;
 
 					_stepCounter += results.data.length;
@@ -64217,7 +64534,7 @@ createDeprecatedModule('resolver');
 			_delimiterError = false;
 			if (!_config.delimiter)
 			{
-				var delimGuess = guessDelimiter(input);
+				var delimGuess = guessDelimiter(input, _config.newline);
 				if (delimGuess.successful)
 					_config.delimiter = delimGuess.bestDelimiter;
 				else
@@ -64225,6 +64542,11 @@ createDeprecatedModule('resolver');
 					_delimiterError = true;	// add error after parsing (otherwise it would be overwritten)
 					_config.delimiter = Papa.DefaultDelimiter;
 				}
+				_results.meta.delimiter = _config.delimiter;
+			}
+			else if(typeof _config.delimiter === 'function')
+			{
+				_config.delimiter = _config.delimiter(input);
 				_results.meta.delimiter = _config.delimiter;
 			}
 
@@ -64257,9 +64579,10 @@ createDeprecatedModule('resolver');
 			self.streamer.parseChunk(_input);
 		};
 
-		this.aborted = function () {
+		this.aborted = function ()
+		{
 			return _aborted;
-		}
+		};
 
 		this.abort = function()
 		{
@@ -64268,21 +64591,21 @@ createDeprecatedModule('resolver');
 			_results.meta.aborted = true;
 			if (isFunction(_config.complete))
 				_config.complete(_results);
-			_input = "";
+			_input = '';
 		};
 
 		function processResults()
 		{
 			if (_results && _delimiterError)
 			{
-				addError("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '"+Papa.DefaultDelimiter+"'");
+				addError('Delimiter', 'UndetectableDelimiter', 'Unable to auto-detect delimiting character; defaulted to \''+Papa.DefaultDelimiter+'\'');
 				_delimiterError = false;
 			}
 
 			if (_config.skipEmptyLines)
 			{
 				for (var i = 0; i < _results.data.length; i++)
-					if (_results.data[i].length == 1 && _results.data[i][0] == "")
+					if (_results.data[i].length === 1 && _results.data[i][0] === '')
 						_results.data.splice(i--, 1);
 			}
 
@@ -64294,7 +64617,7 @@ createDeprecatedModule('resolver');
 
 		function needsHeaderRow()
 		{
-			return _config.header && _fields.length == 0;
+			return _config.header && _fields.length === 0;
 		}
 
 		function fillHeaderFields()
@@ -64307,6 +64630,20 @@ createDeprecatedModule('resolver');
 			_results.data.splice(0, 1);
 		}
 
+		function parseDynamic(field, value)
+		{
+			if ((_config.dynamicTyping[field] || _config.dynamicTyping) === true)
+			{
+				if (value === 'true' || value === 'TRUE')
+					return true;
+				else if (value === 'false' || value === 'FALSE')
+					return false;
+				else
+					return tryParseFloat(value);
+			}
+			return value;
+		}
+
 		function applyHeaderAndDynamicTyping()
 		{
 			if (!_results || (!_config.header && !_config.dynamicTyping))
@@ -64314,41 +64651,35 @@ createDeprecatedModule('resolver');
 
 			for (var i = 0; i < _results.data.length; i++)
 			{
-				var row = {};
+				var row = _config.header ? {} : [];
 
 				for (var j = 0; j < _results.data[i].length; j++)
 				{
-					if (_config.dynamicTyping)
-					{
-						var value = _results.data[i][j];
-						if (value == "true" || value == "TRUE")
-							_results.data[i][j] = true;
-						else if (value == "false" || value == "FALSE")
-							_results.data[i][j] = false;
-						else
-							_results.data[i][j] = tryParseFloat(value);
-					}
+					var field = j;
+					var value = _results.data[i][j];
 
 					if (_config.header)
+						field = j >= _fields.length ? '__parsed_extra' : _fields[j];
+
+					value = parseDynamic(field, value);
+
+					if (field === '__parsed_extra')
 					{
-						if (j >= _fields.length)
-						{
-							if (!row["__parsed_extra"])
-								row["__parsed_extra"] = [];
-							row["__parsed_extra"].push(_results.data[i][j]);
-						}
-						else
-							row[_fields[j]] = _results.data[i][j];
+						row[field] = row[field] || [];
+						row[field].push(value);
 					}
+					else
+						row[field] = value;
 				}
+
+				_results.data[i] = row;
 
 				if (_config.header)
 				{
-					_results.data[i] = row;
 					if (j > _fields.length)
-						addError("FieldMismatch", "TooManyFields", "Too many fields: expected " + _fields.length + " fields but parsed " + j, i);
+						addError('FieldMismatch', 'TooManyFields', 'Too many fields: expected ' + _fields.length + ' fields but parsed ' + j, i);
 					else if (j < _fields.length)
-						addError("FieldMismatch", "TooFewFields", "Too few fields: expected " + _fields.length + " fields but parsed " + j, i);
+						addError('FieldMismatch', 'TooFewFields', 'Too few fields: expected ' + _fields.length + ' fields but parsed ' + j, i);
 				}
 			}
 
@@ -64357,9 +64688,9 @@ createDeprecatedModule('resolver');
 			return _results;
 		}
 
-		function guessDelimiter(input)
+		function guessDelimiter(input, newline)
 		{
-			var delimChoices = [",", "\t", "|", ";", Papa.RECORD_SEP, Papa.UNIT_SEP];
+			var delimChoices = [',', '\t', '|', ';', Papa.RECORD_SEP, Papa.UNIT_SEP];
 			var bestDelim, bestDelta, fieldCountPrevRow;
 
 			for (var i = 0; i < delimChoices.length; i++)
@@ -64370,6 +64701,7 @@ createDeprecatedModule('resolver');
 
 				var preview = new Parser({
 					delimiter: delim,
+					newline: newline,
 					preview: 10
 				}).parse(input);
 
@@ -64415,13 +64747,17 @@ createDeprecatedModule('resolver');
 
 			var r = input.split('\r');
 
-			if (r.length == 1)
+			var n = input.split('\n');
+
+			var nAppearsFirst = (n.length > 1 && n[0].length < r[0].length);
+
+			if (r.length === 1 || nAppearsFirst)
 				return '\n';
 
 			var numWithN = 0;
 			for (var i = 0; i < r.length; i++)
 			{
-				if (r[i][0] == '\n')
+				if (r[i][0] === '\n')
 					numWithN++;
 			}
 
@@ -64460,17 +64796,18 @@ createDeprecatedModule('resolver');
 		var step = config.step;
 		var preview = config.preview;
 		var fastMode = config.fastMode;
+		var quoteChar = config.quoteChar || '"';
 
 		// Delimiter must be valid
 		if (typeof delim !== 'string'
 			|| Papa.BAD_DELIMITERS.indexOf(delim) > -1)
-			delim = ",";
+			delim = ',';
 
 		// Comment character must be valid
 		if (comments === delim)
-			throw "Comment character same as delimiter";
+			throw 'Comment character same as delimiter';
 		else if (comments === true)
-			comments = "#";
+			comments = '#';
 		else if (typeof comments !== 'string'
 			|| Papa.BAD_DELIMITERS.indexOf(comments) > -1)
 			comments = false;
@@ -64487,7 +64824,7 @@ createDeprecatedModule('resolver');
 		{
 			// For some reason, in Chrome, this speeds things up (!?)
 			if (typeof input !== 'string')
-				throw "Input must be a string";
+				throw 'Input must be a string';
 
 			// We don't need to compute some of these every time parse() is called,
 			// but having them in a more local scope seems to perform better
@@ -64504,7 +64841,7 @@ createDeprecatedModule('resolver');
 			if (!input)
 				return returnable();
 
-			if (fastMode || (fastMode !== false && input.indexOf('"') === -1))
+			if (fastMode || (fastMode !== false && input.indexOf(quoteChar) === -1))
 			{
 				var rows = input.split(newline);
 				for (var i = 0; i < rows.length; i++)
@@ -64515,7 +64852,7 @@ createDeprecatedModule('resolver');
 						cursor += newline.length;
 					else if (ignoreLastRow)
 						return returnable();
-					if (comments && row.substr(0, commentsLen) == comments)
+					if (comments && row.substr(0, commentsLen) === comments)
 						continue;
 					if (stepIsFunction)
 					{
@@ -64538,12 +64875,13 @@ createDeprecatedModule('resolver');
 
 			var nextDelim = input.indexOf(delim, cursor);
 			var nextNewline = input.indexOf(newline, cursor);
+			var quoteCharRegex = new RegExp(quoteChar+quoteChar, 'g');
 
 			// Parser loop
 			for (;;)
 			{
 				// Field has opening quote
-				if (input[cursor] == '"')
+				if (input[cursor] === quoteChar)
 				{
 					// Start our search for the closing quote where the cursor is
 					var quoteSearch = cursor;
@@ -64554,16 +64892,16 @@ createDeprecatedModule('resolver');
 					for (;;)
 					{
 						// Find closing quote
-						var quoteSearch = input.indexOf('"', quoteSearch+1);
+						var quoteSearch = input.indexOf(quoteChar, quoteSearch+1);
 
 						if (quoteSearch === -1)
 						{
 							if (!ignoreLastRow) {
 								// No closing quote... what a pity
 								errors.push({
-									type: "Quotes",
-									code: "MissingQuotes",
-									message: "Quoted field unterminated",
+									type: 'Quotes',
+									code: 'MissingQuotes',
+									message: 'Quoted field unterminated',
 									row: data.length,	// row has yet to be inserted
 									index: cursor
 								});
@@ -64574,21 +64912,21 @@ createDeprecatedModule('resolver');
 						if (quoteSearch === inputLen-1)
 						{
 							// Closing quote at EOF
-							var value = input.substring(cursor, quoteSearch).replace(/""/g, '"');
+							var value = input.substring(cursor, quoteSearch).replace(quoteCharRegex, quoteChar);
 							return finish(value);
 						}
 
 						// If this quote is escaped, it's part of the data; skip it
-						if (input[quoteSearch+1] == '"')
+						if (input[quoteSearch+1] === quoteChar)
 						{
 							quoteSearch++;
 							continue;
 						}
 
-						if (input[quoteSearch+1] == delim)
+						if (input[quoteSearch+1] === delim)
 						{
 							// Closing quote followed by delimiter
-							row.push(input.substring(cursor, quoteSearch).replace(/""/g, '"'));
+							row.push(input.substring(cursor, quoteSearch).replace(quoteCharRegex, quoteChar));
 							cursor = quoteSearch + 1 + delimLen;
 							nextDelim = input.indexOf(delim, cursor);
 							nextNewline = input.indexOf(newline, cursor);
@@ -64598,7 +64936,7 @@ createDeprecatedModule('resolver');
 						if (input.substr(quoteSearch+1, newlineLen) === newline)
 						{
 							// Closing quote followed by newline
-							row.push(input.substring(cursor, quoteSearch).replace(/""/g, '"'));
+							row.push(input.substring(cursor, quoteSearch).replace(quoteCharRegex, quoteChar));
 							saveRow(quoteSearch + 1 + newlineLen);
 							nextDelim = input.indexOf(delim, cursor);	// because we may have skipped the nextDelim in the quoted field
 
@@ -64608,7 +64946,7 @@ createDeprecatedModule('resolver');
 								if (aborted)
 									return returnable();
 							}
-							
+
 							if (preview && data.length >= preview)
 								return returnable(true);
 
@@ -64622,7 +64960,7 @@ createDeprecatedModule('resolver');
 				// Comment found at start of new line
 				if (comments && row.length === 0 && input.substr(cursor, commentsLen) === comments)
 				{
-					if (nextNewline == -1)	// Comment ends at EOF
+					if (nextNewline === -1)	// Comment ends at EOF
 						return returnable();
 					cursor = nextNewline + newlineLen;
 					nextNewline = input.indexOf(newline, cursor);
@@ -64759,7 +65097,7 @@ createDeprecatedModule('resolver');
 				'You need to set Papa.SCRIPT_PATH manually.'
 			);
 		var workerUrl = Papa.SCRIPT_PATH || AUTO_SCRIPT_PATH;
-		// Append "papaworker" to the search string to tell papaparse that this is our worker.
+		// Append 'papaworker' to the search string to tell papaparse that this is our worker.
 		workerUrl += (workerUrl.indexOf('?') !== -1 ? '&' : '?') + 'papaworker';
 		var w = new global.Worker(workerUrl);
 		w.onmessage = mainThreadReceivedMessage;
@@ -64824,7 +65162,7 @@ createDeprecatedModule('resolver');
 	}
 
 	function notImplemented() {
-		throw "Not implemented.";
+		throw 'Not implemented.';
 	}
 
 	/** Callback when worker thread receives a message */
@@ -64875,7 +65213,9 @@ createDeprecatedModule('resolver');
 	{
 		return typeof func === 'function';
 	}
-})(typeof window !== 'undefined' ? window : this);
+
+	return Papa;
+}));
 
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 function corslite(n,t,o){function e(n){return n>=200&&300>n||304===n}function i(){void 0===r.status||e(r.status)?t.call(r,null,r):t.call(r,r,null)}var l=!1;if("undefined"==typeof window.XMLHttpRequest)return t(Error("Browser not supported"));if("undefined"==typeof o){var u=n.match(/^\s*https?:\/\/[^\/]*/);o=u&&u[0]!==location.protocol+"//"+location.domain+(location.port?":"+location.port:"")}var r=new window.XMLHttpRequest;if(o&&!("withCredentials"in r)){r=new window.XDomainRequest;var a=t;t=function(){if(l)a.apply(this,arguments);else{var n=this,t=arguments;setTimeout(function(){a.apply(n,t)},0)}}}return"onload"in r?r.onload=i:r.onreadystatechange=function(){4===r.readyState&&i()},r.onerror=function(n){t.call(this,n||!0,null),t=function(){}},r.onprogress=function(){},r.ontimeout=function(n){t.call(this,n,null),t=function(){}},r.onabort=function(n){t.call(this,n,null),t=function(){}},r.open("GET",n,!0),r.send(null),l=!0,r}"undefined"!=typeof module&&(module.exports=corslite);
@@ -64977,7 +65317,7 @@ var saveAs = saveAs || (function(view) {
 			var event = new MouseEvent("click");
 			node.dispatchEvent(event);
 		}
-		, is_safari = /constructor/i.test(view.HTMLElement)
+		, is_safari = /constructor/i.test(view.HTMLElement) || view.safari
 		, is_chrome_ios =/CriOS\/[\d]+/.test(navigator.userAgent)
 		, throw_outside = function(ex) {
 			(view.setImmediate || view.setTimeout)(function() {
@@ -65128,7 +65468,7 @@ var saveAs = saveAs || (function(view) {
 if (typeof module !== "undefined" && module.exports) {
   module.exports.saveAs = saveAs;
 } else if ((typeof define !== "undefined" && define !== null) && (define.amd !== null)) {
-  define([], function() {
+  define("FileSaver.js", function() {
     return saveAs;
   });
 }
@@ -69287,181 +69627,15 @@ define('ember-getowner-polyfill', ['ember-getowner-polyfill/index', 'ember', 'ex
   }));
 });
 
-define('ember-getowner-polyfill/fake-owner', ['exports', 'ember'], function (exports, _ember) {
-  'use strict';
+define("ember-getowner-polyfill/index", ["exports", "ember"], function (exports, _ember) {
+  "use strict";
 
-  var _createClass = (function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-  })();
+  _ember["default"].deprecate("ember-getowner-polyfill is now a true polyfill. Use Ember.getOwner directly instead of importing from ember-getowner-polyfill", false, {
+    id: "ember-getowner-polyfill.import",
+    until: '2.0.0'
+  });
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError('Cannot call a class as a function');
-    }
-  }
-
-  var CONTAINER = '__' + new Date() + '_container';
-  var REGISTRY = '__' + new Date() + '_registry';
-
-  var FakeOwner = (function () {
-    function FakeOwner(object) {
-      _classCallCheck(this, FakeOwner);
-
-      this[CONTAINER] = object.container;
-
-      if (_ember['default'].Registry) {
-        // object.container._registry is used by 1.11
-        this[REGISTRY] = object.container.registry || object.container._registry;
-      } else {
-        // Ember < 1.12
-        this[REGISTRY] = object.container;
-      }
-    }
-
-    // ContainerProxyMixin methods
-    //
-    // => http://emberjs.com/api/classes/ContainerProxyMixin.html
-    //
-
-    _createClass(FakeOwner, [{
-      key: 'lookup',
-      value: function lookup() {
-        var _CONTAINER;
-
-        return (_CONTAINER = this[CONTAINER]).lookup.apply(_CONTAINER, arguments);
-      }
-    }, {
-      key: '_lookupFactory',
-      value: function _lookupFactory() {
-        var _CONTAINER2;
-
-        return (_CONTAINER2 = this[CONTAINER]).lookupFactory.apply(_CONTAINER2, arguments);
-      }
-    }, {
-      key: 'ownerInjection',
-      value: function ownerInjection() {
-        return {
-          container: this[CONTAINER]
-        };
-      }
-
-      // RegistryProxyMixin methods
-      //
-      // => http://emberjs.com/api/classes/RegistryProxyMixin.html
-      //
-    }, {
-      key: 'hasRegistration',
-      value: function hasRegistration() {
-        var _REGISTRY;
-
-        return (_REGISTRY = this[REGISTRY]).has.apply(_REGISTRY, arguments);
-      }
-    }, {
-      key: 'inject',
-      value: function inject() {
-        var _REGISTRY2;
-
-        return (_REGISTRY2 = this[REGISTRY]).injection.apply(_REGISTRY2, arguments);
-      }
-    }, {
-      key: 'register',
-      value: function register() {
-        var _REGISTRY3;
-
-        return (_REGISTRY3 = this[REGISTRY]).register.apply(_REGISTRY3, arguments);
-      }
-    }, {
-      key: 'registerOption',
-      value: function registerOption() {
-        var _REGISTRY4;
-
-        return (_REGISTRY4 = this[REGISTRY]).option.apply(_REGISTRY4, arguments);
-      }
-    }, {
-      key: 'registerOptions',
-      value: function registerOptions() {
-        var _REGISTRY5;
-
-        return (_REGISTRY5 = this[REGISTRY]).options.apply(_REGISTRY5, arguments);
-      }
-    }, {
-      key: 'registerOptionsForType',
-      value: function registerOptionsForType() {
-        var _REGISTRY6;
-
-        return (_REGISTRY6 = this[REGISTRY]).optionsForType.apply(_REGISTRY6, arguments);
-      }
-    }, {
-      key: 'registeredOption',
-      value: function registeredOption() {
-        var _REGISTRY7;
-
-        return (_REGISTRY7 = this[REGISTRY]).getOption.apply(_REGISTRY7, arguments);
-      }
-    }, {
-      key: 'registeredOptions',
-      value: function registeredOptions() {
-        var _REGISTRY8;
-
-        return (_REGISTRY8 = this[REGISTRY]).getOptions.apply(_REGISTRY8, arguments);
-      }
-    }, {
-      key: 'registeredOptionsForType',
-      value: function registeredOptionsForType(type) {
-        if (this[REGISTRY].getOptionsForType) {
-          var _REGISTRY9;
-
-          return (_REGISTRY9 = this[REGISTRY]).getOptionsForType.apply(_REGISTRY9, arguments);
-        } else {
-          // used for Ember 1.10
-          return this[REGISTRY]._typeOptions[type];
-        }
-      }
-    }, {
-      key: 'resolveRegistration',
-      value: function resolveRegistration() {
-        var _REGISTRY10;
-
-        return (_REGISTRY10 = this[REGISTRY]).resolve.apply(_REGISTRY10, arguments);
-      }
-    }, {
-      key: 'unregister',
-      value: function unregister() {
-        var _REGISTRY11;
-
-        return (_REGISTRY11 = this[REGISTRY]).unregister.apply(_REGISTRY11, arguments);
-      }
-    }]);
-
-    return FakeOwner;
-  })();
-
-  exports['default'] = FakeOwner;
-});
-define('ember-getowner-polyfill/index', ['exports', 'ember', 'ember-getowner-polyfill/fake-owner'], function (exports, _ember, _emberGetownerPolyfillFakeOwner) {
-  'use strict';
-
-  var hasGetOwner = !!_ember['default'].getOwner;
-
-  exports['default'] = function (object) {
-    var owner = undefined;
-
-    if (hasGetOwner) {
-      owner = _ember['default'].getOwner(object);
-    }
-
-    if (!owner && object.container) {
-      owner = new _emberGetownerPolyfillFakeOwner['default'](object);
-    }
-
-    return owner;
-  };
+  exports["default"] = _ember["default"].getOwner;
 });
 define('ember-hash-helper-polyfill', ['ember-hash-helper-polyfill/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
   'use strict';
@@ -73677,4 +73851,4 @@ define('ember-wormhole/components/ember-wormhole', ['exports', 'ember'], functio
 
 
 /* jshint ignore:end */
-//# sourceMappingURL=vendor-28a563b67bea347d459199578da288d1.map
+//# sourceMappingURL=vendor-5c7a4fb7e0ffc0433582865477877c86.map
