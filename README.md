@@ -43,7 +43,10 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+* Start by checking out the branch dedicated to github-pages deployment
+`git checkout -b gh-pages --track origin/gh-pages`
+
+Once your work has been merged in the master branch, deploy it with `make deploy` which will build the app locally, and push it to the dedicated branch gh-pages, used by the github-pages website trainline-eu.github.io/stations-studio/
 
 ## Further Reading / Useful Links
 
