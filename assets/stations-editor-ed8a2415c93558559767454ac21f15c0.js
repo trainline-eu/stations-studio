@@ -5604,7 +5604,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 "column": 0
               },
               "end": {
-                "line": 33,
+                "line": 36,
                 "column": 0
               }
             },
@@ -5666,6 +5666,18 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Is airport?");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("Country");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
@@ -5678,7 +5690,31 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Country hint?");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("Main station?");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Main station hint?");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode(" ");
@@ -5727,7 +5763,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var morphs = new Array(9);
+            var morphs = new Array(12);
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 2, 2);
             morphs[1] = dom.createMorphAt(dom.childAt(fragment, [2]), 2, 2);
             morphs[2] = dom.createMorphAt(dom.childAt(fragment, [4]), 2, 2);
@@ -5737,9 +5773,12 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             morphs[6] = dom.createMorphAt(dom.childAt(fragment, [12]), 2, 2);
             morphs[7] = dom.createMorphAt(dom.childAt(fragment, [14]), 2, 2);
             morphs[8] = dom.createMorphAt(dom.childAt(fragment, [16]), 2, 2);
+            morphs[9] = dom.createMorphAt(dom.childAt(fragment, [18]), 2, 2);
+            morphs[10] = dom.createMorphAt(dom.childAt(fragment, [20]), 2, 2);
+            morphs[11] = dom.createMorphAt(dom.childAt(fragment, [22]), 2, 2);
             return morphs;
           },
-          statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [24, 54], [24, 61]]]]], [], []], "field", "slug"], ["loc", [null, [24, 25], [24, 76]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [25, 59], [25, 66]]]]], [], []], "field", "longitude"], ["loc", [null, [25, 30], [25, 86]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [26, 58], [26, 65]]]]], [], []], "field", "latitude"], ["loc", [null, [26, 29], [26, 84]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [27, 56], [27, 63]]]]], [], []], "field", "is_city"], ["loc", [null, [27, 29], [27, 81]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [28, 57], [28, 64]]]]], [], []], "field", "country"], ["loc", [null, [28, 28], [28, 82]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [29, 61], [29, 68]]]]], [], []], "field", "is_main_station"], ["loc", [null, [29, 34], [29, 94]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [30, 58], [30, 65]]]]], [], []], "field", "same_as"], ["loc", [null, [30, 29], [30, 83]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [31, 58], [31, 65]]]]], [], []], "field", "time_zone"], ["loc", [null, [31, 29], [31, 85]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [32, 51], [32, 58]]]]], [], []], "field", "sncf_self_service_machine"], ["loc", [null, [32, 24], [32, 94]]]]],
+          statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [24, 54], [24, 61]]]]], [], []], "field", "slug"], ["loc", [null, [24, 25], [24, 76]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [25, 59], [25, 66]]]]], [], []], "field", "longitude"], ["loc", [null, [25, 30], [25, 86]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [26, 58], [26, 65]]]]], [], []], "field", "latitude"], ["loc", [null, [26, 29], [26, 84]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [27, 56], [27, 63]]]]], [], []], "field", "is_city"], ["loc", [null, [27, 29], [27, 81]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [28, 59], [28, 66]]]]], [], []], "field", "is_airport"], ["loc", [null, [28, 32], [28, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [29, 57], [29, 64]]]]], [], []], "field", "country"], ["loc", [null, [29, 28], [29, 82]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [30, 61], [30, 68]]]]], [], []], "field", "country_hint"], ["loc", [null, [30, 34], [30, 91]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [31, 61], [31, 68]]]]], [], []], "field", "is_main_station"], ["loc", [null, [31, 34], [31, 94]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [32, 66], [32, 73]]]]], [], []], "field", "main_station_hint"], ["loc", [null, [32, 39], [32, 101]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [33, 58], [33, 65]]]]], [], []], "field", "same_as"], ["loc", [null, [33, 29], [33, 83]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [34, 58], [34, 65]]]]], [], []], "field", "time_zone"], ["loc", [null, [34, 29], [34, 85]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [35, 51], [35, 58]]]]], [], []], "field", "sncf_self_service_machine"], ["loc", [null, [35, 24], [35, 94]]]]],
           locals: [],
           templates: []
         };
@@ -5753,11 +5792,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 36,
+                  "line": 39,
                   "column": 0
                 },
                 "end": {
-                  "line": 38,
+                  "line": 41,
                   "column": 0
                 }
               },
@@ -5790,7 +5829,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               morphs[1] = dom.createMorphAt(element0, 2, 2);
               return morphs;
             },
-            statements: [["content", "locale", ["loc", [null, [37, 13], [37, 23]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [37, 60], [37, 67]]]]], [], []], "field", ["subexpr", "@mut", [["get", "locale", ["loc", [null, [37, 74], [37, 80]]]]], [], []]], ["loc", [null, [37, 31], [37, 82]]]]],
+            statements: [["content", "locale", ["loc", [null, [40, 13], [40, 23]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [40, 60], [40, 67]]]]], [], []], "field", ["subexpr", "@mut", [["get", "locale", ["loc", [null, [40, 74], [40, 80]]]]], [], []]], ["loc", [null, [40, 31], [40, 82]]]]],
             locals: ["locale"],
             templates: []
           };
@@ -5802,11 +5841,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 35,
+                "line": 38,
                 "column": 0
               },
               "end": {
-                "line": 39,
+                "line": 42,
                 "column": 0
               }
             },
@@ -5829,7 +5868,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "each", [["get", "languages", ["loc", [null, [36, 8], [36, 17]]]]], [], 0, null, ["loc", [null, [36, 0], [38, 9]]]]],
+          statements: [["block", "each", [["get", "languages", ["loc", [null, [39, 8], [39, 17]]]]], [], 0, null, ["loc", [null, [39, 0], [41, 9]]]]],
           locals: [],
           templates: [child0]
         };
@@ -5844,11 +5883,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 43,
+                    "line": 46,
                     "column": 27
                   },
                   "end": {
-                    "line": 43,
+                    "line": 46,
                     "column": 87
                   }
                 },
@@ -5877,7 +5916,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 dom.insertBoundary(fragment, 0);
                 return morphs;
               },
-              statements: [["content", "parent.name", ["loc", [null, [43, 56], [43, 71]]]], ["content", "parent.id", ["loc", [null, [43, 73], [43, 86]]]]],
+              statements: [["content", "parent.name", ["loc", [null, [46, 56], [46, 71]]]], ["content", "parent.id", ["loc", [null, [46, 73], [46, 86]]]]],
               locals: [],
               templates: []
             };
@@ -5889,11 +5928,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 42,
+                  "line": 45,
                   "column": 0
                 },
                 "end": {
-                  "line": 44,
+                  "line": 47,
                   "column": 0
                 }
               },
@@ -5924,7 +5963,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 2, 2);
               return morphs;
             },
-            statements: [["block", "link-to", ["station", ["get", "parent", ["loc", [null, [43, 48], [43, 54]]]]], [], 0, null, ["loc", [null, [43, 27], [43, 99]]]]],
+            statements: [["block", "link-to", ["station", ["get", "parent", ["loc", [null, [46, 48], [46, 54]]]]], [], 0, null, ["loc", [null, [46, 27], [46, 99]]]]],
             locals: [],
             templates: [child0]
           };
@@ -5939,11 +5978,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 49,
+                      "line": 52,
                       "column": 8
                     },
                     "end": {
-                      "line": 49,
+                      "line": 52,
                       "column": 65
                     }
                   },
@@ -5972,7 +6011,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                   dom.insertBoundary(fragment, 0);
                   return morphs;
                 },
-                statements: [["content", "child.name", ["loc", [null, [49, 36], [49, 50]]]], ["content", "child.id", ["loc", [null, [49, 52], [49, 64]]]]],
+                statements: [["content", "child.name", ["loc", [null, [52, 36], [52, 50]]]], ["content", "child.id", ["loc", [null, [52, 52], [52, 64]]]]],
                 locals: [],
                 templates: []
               };
@@ -5984,11 +6023,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 48,
+                    "line": 51,
                     "column": 4
                   },
                   "end": {
-                    "line": 50,
+                    "line": 53,
                     "column": 4
                   }
                 },
@@ -6015,7 +6054,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
                 return morphs;
               },
-              statements: [["block", "link-to", ["station", ["get", "child", ["loc", [null, [49, 29], [49, 34]]]]], [], 0, null, ["loc", [null, [49, 8], [49, 77]]]]],
+              statements: [["block", "link-to", ["station", ["get", "child", ["loc", [null, [52, 29], [52, 34]]]]], [], 0, null, ["loc", [null, [52, 8], [52, 77]]]]],
               locals: ["child"],
               templates: [child0]
             };
@@ -6027,11 +6066,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 45,
+                  "line": 48,
                   "column": 0
                 },
                 "end": {
-                  "line": 53,
+                  "line": 56,
                   "column": 0
                 }
               },
@@ -6070,7 +6109,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 2]), 1, 1);
               return morphs;
             },
-            statements: [["block", "each", [["get", "children", ["loc", [null, [48, 12], [48, 20]]]]], [], 0, null, ["loc", [null, [48, 4], [50, 13]]]]],
+            statements: [["block", "each", [["get", "children", ["loc", [null, [51, 12], [51, 20]]]]], [], 0, null, ["loc", [null, [51, 4], [53, 13]]]]],
             locals: [],
             templates: [child0]
           };
@@ -6082,11 +6121,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 41,
+                "line": 44,
                 "column": 0
               },
               "end": {
-                "line": 54,
+                "line": 57,
                 "column": 0
               }
             },
@@ -6112,7 +6151,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "if", [["get", "parent", ["loc", [null, [42, 6], [42, 12]]]]], [], 0, null, ["loc", [null, [42, 0], [44, 7]]]], ["block", "if", [["get", "children", ["loc", [null, [45, 6], [45, 14]]]]], [], 1, null, ["loc", [null, [45, 0], [53, 7]]]]],
+          statements: [["block", "if", [["get", "parent", ["loc", [null, [45, 6], [45, 12]]]]], [], 0, null, ["loc", [null, [45, 0], [47, 7]]]], ["block", "if", [["get", "children", ["loc", [null, [48, 6], [48, 14]]]]], [], 1, null, ["loc", [null, [48, 0], [56, 7]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -6128,7 +6167,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "column": 0
             },
             "end": {
-              "line": 55,
+              "line": 58,
               "column": 0
             }
           },
@@ -6166,7 +6205,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "bs-accordion-item", [], ["value", "1", "title", "Carriers"], 0, null, ["loc", [null, [5, 0], [21, 22]]]], ["block", "bs-accordion-item", [], ["value", "2", "title", "Properties"], 1, null, ["loc", [null, [23, 0], [33, 22]]]], ["block", "bs-accordion-item", [], ["value", "3", "title", "Translations"], 2, null, ["loc", [null, [35, 0], [39, 22]]]], ["block", "bs-accordion-item", [], ["value", "4", "title", "Parent and children"], 3, null, ["loc", [null, [41, 0], [54, 22]]]]],
+        statements: [["block", "bs-accordion-item", [], ["value", "1", "title", "Carriers"], 0, null, ["loc", [null, [5, 0], [21, 22]]]], ["block", "bs-accordion-item", [], ["value", "2", "title", "Properties"], 1, null, ["loc", [null, [23, 0], [36, 22]]]], ["block", "bs-accordion-item", [], ["value", "3", "title", "Translations"], 2, null, ["loc", [null, [38, 0], [42, 22]]]], ["block", "bs-accordion-item", [], ["value", "4", "title", "Parent and children"], 3, null, ["loc", [null, [44, 0], [57, 22]]]]],
         locals: [],
         templates: [child0, child1, child2, child3]
       };
@@ -6185,7 +6224,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 56,
+            "line": 59,
             "column": 0
           }
         },
@@ -6236,7 +6275,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [2, 90], [2, 97]]]]], [], []], "field", "name"], ["loc", [null, [2, 61], [2, 112]]]], ["content", "station.id", ["loc", [null, [2, 114], [2, 128]]]], ["block", "bs-accordion", [], ["selected", "1"], 0, null, ["loc", [null, [4, 0], [55, 17]]]]],
+      statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [2, 90], [2, 97]]]]], [], []], "field", "name"], ["loc", [null, [2, 61], [2, 112]]]], ["content", "station.id", ["loc", [null, [2, 114], [2, 128]]]], ["block", "bs-accordion", [], ["selected", "1"], 0, null, ["loc", [null, [4, 0], [58, 17]]]]],
       locals: [],
       templates: [child0]
     };
@@ -6827,8 +6866,8 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("stations-editor/app")["default"].create({"name":"stations-editor","version":"0.0.0+e488e313"});
+  require("stations-editor/app")["default"].create({"name":"stations-editor","version":"0.0.0+528714b5"});
 }
 
 /* jshint ignore:end */
-//# sourceMappingURL=stations-editor-d173e2046aaad27f6890eb0541b3dde9.map
+//# sourceMappingURL=stations-editor-3147558ba375303f00503c3b0eccf8ca.map
