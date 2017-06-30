@@ -5654,6 +5654,42 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Country");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Timezone");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Main station?");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("Is city?");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
@@ -5678,31 +5714,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
-            var el3 = dom.createTextNode("Country");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(" ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("label");
-            var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("Country hint?");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(" ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("label");
-            var el2 = dom.createElement("span");
-            var el3 = dom.createTextNode("Main station?");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode(" ");
@@ -5726,34 +5738,22 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Has self-service machine?");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("Same as");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("  ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("label");
-            var el2 = dom.createElement("span");
-            var el3 = dom.createTextNode("Timezone");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(" ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("label");
-            var el2 = dom.createElement("span");
-            var el3 = dom.createTextNode("BLS");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(" ");
             dom.appendChild(el1, el2);
             var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
@@ -5778,7 +5778,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             morphs[11] = dom.createMorphAt(dom.childAt(fragment, [22]), 2, 2);
             return morphs;
           },
-          statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [24, 54], [24, 61]]]]], [], []], "field", "slug"], ["loc", [null, [24, 25], [24, 76]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [25, 59], [25, 66]]]]], [], []], "field", "longitude"], ["loc", [null, [25, 30], [25, 86]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [26, 58], [26, 65]]]]], [], []], "field", "latitude"], ["loc", [null, [26, 29], [26, 84]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [27, 56], [27, 63]]]]], [], []], "field", "is_city"], ["loc", [null, [27, 29], [27, 81]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [28, 59], [28, 66]]]]], [], []], "field", "is_airport"], ["loc", [null, [28, 32], [28, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [29, 57], [29, 64]]]]], [], []], "field", "country"], ["loc", [null, [29, 28], [29, 82]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [30, 61], [30, 68]]]]], [], []], "field", "country_hint"], ["loc", [null, [30, 34], [30, 91]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [31, 61], [31, 68]]]]], [], []], "field", "is_main_station"], ["loc", [null, [31, 34], [31, 94]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [32, 66], [32, 73]]]]], [], []], "field", "main_station_hint"], ["loc", [null, [32, 39], [32, 101]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [33, 58], [33, 65]]]]], [], []], "field", "same_as"], ["loc", [null, [33, 29], [33, 83]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [34, 58], [34, 65]]]]], [], []], "field", "time_zone"], ["loc", [null, [34, 29], [34, 85]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [35, 51], [35, 58]]]]], [], []], "field", "sncf_self_service_machine"], ["loc", [null, [35, 24], [35, 94]]]]],
+          statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [24, 54], [24, 61]]]]], [], []], "field", "slug"], ["loc", [null, [24, 25], [24, 76]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [25, 59], [25, 66]]]]], [], []], "field", "longitude"], ["loc", [null, [25, 30], [25, 86]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [26, 58], [26, 65]]]]], [], []], "field", "latitude"], ["loc", [null, [26, 29], [26, 84]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [27, 57], [27, 64]]]]], [], []], "field", "country"], ["loc", [null, [27, 28], [27, 82]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [28, 58], [28, 65]]]]], [], []], "field", "time_zone"], ["loc", [null, [28, 29], [28, 85]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [29, 61], [29, 68]]]]], [], []], "field", "is_main_station"], ["loc", [null, [29, 34], [29, 94]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [30, 56], [30, 63]]]]], [], []], "field", "is_city"], ["loc", [null, [30, 29], [30, 81]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [31, 59], [31, 66]]]]], [], []], "field", "is_airport"], ["loc", [null, [31, 32], [31, 87]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [32, 61], [32, 68]]]]], [], []], "field", "country_hint"], ["loc", [null, [32, 34], [32, 91]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [33, 66], [33, 73]]]]], [], []], "field", "main_station_hint"], ["loc", [null, [33, 39], [33, 101]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [34, 73], [34, 80]]]]], [], []], "field", "sncf_self_service_machine"], ["loc", [null, [34, 46], [34, 116]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [35, 58], [35, 65]]]]], [], []], "field", "same_as"], ["loc", [null, [35, 29], [35, 83]]]]],
           locals: [],
           templates: []
         };
@@ -6866,8 +6866,8 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("stations-editor/app")["default"].create({"name":"stations-editor","version":"0.0.0+528714b5"});
+  require("stations-editor/app")["default"].create({"name":"stations-editor","version":"0.0.0+63b6e6cc"});
 }
 
 /* jshint ignore:end */
-//# sourceMappingURL=stations-editor-3147558ba375303f00503c3b0eccf8ca.map
+//# sourceMappingURL=stations-editor-ac8195362bee12efa4842bd49e0acfb9.map
