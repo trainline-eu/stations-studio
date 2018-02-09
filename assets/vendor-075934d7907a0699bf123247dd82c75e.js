@@ -65286,8 +65286,8 @@ module.exports=window.L=require("leaflet/dist/leaflet-src");
 
 ;/* FileSaver.js
  * A saveAs() FileSaver implementation.
- * 1.3.2
- * 2016-06-16 18:25:19
+ * 1.3.4
+ * 2018-01-12 13:14:0
  *
  * By Eli Grey, http://eligrey.com
  * License: MIT
@@ -65459,18 +65459,15 @@ var saveAs = saveAs || (function(view) {
 }(
 	   typeof self !== "undefined" && self
 	|| typeof window !== "undefined" && window
-	|| this.content
+	|| this
 ));
-// `self` is undefined in Firefox for Android content script context
-// while `this` is nsIContentFrameMessageManager
-// with an attribute `content` that corresponds to the window
 
 if (typeof module !== "undefined" && module.exports) {
-  module.exports.saveAs = saveAs;
+	module.exports.saveAs = saveAs;
 } else if ((typeof define !== "undefined" && define !== null) && (define.amd !== null)) {
-  define("FileSaver.js", function() {
-    return saveAs;
-  });
+	define("FileSaver.js", function() {
+		return saveAs;
+	});
 }
 
 ;define('ember-basic-dropdown', ['ember-basic-dropdown/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
@@ -73851,4 +73848,4 @@ define('ember-wormhole/components/ember-wormhole', ['exports', 'ember'], functio
 
 
 /* jshint ignore:end */
-//# sourceMappingURL=vendor-5c7a4fb7e0ffc0433582865477877c86.map
+//# sourceMappingURL=vendor-a36f33e30ddfc60ff9281bd3c9e92764.map

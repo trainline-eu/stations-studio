@@ -5310,7 +5310,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 "column": 0
               },
               "end": {
-                "line": 21,
+                "line": 25,
                 "column": 0
               }
             },
@@ -5398,7 +5398,39 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Distribusion");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("Flixbus");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Leo Express");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode(" ");
@@ -5510,6 +5542,22 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Benerail");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("UIC");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
@@ -5523,6 +5571,18 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             var el1 = dom.createElement("label");
             var el2 = dom.createElement("span");
             var el3 = dom.createTextNode("SNCF TVS");
+            dom.appendChild(el2, el3);
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode(" ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("label");
+            var el2 = dom.createElement("span");
+            var el3 = dom.createTextNode("Trenitalia RTVT");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode(" ");
@@ -5558,7 +5618,10 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             var element9 = dom.childAt(fragment, [18]);
             var element10 = dom.childAt(fragment, [20]);
             var element11 = dom.childAt(fragment, [22]);
-            var morphs = new Array(26);
+            var element12 = dom.childAt(fragment, [24]);
+            var element13 = dom.childAt(fragment, [26]);
+            var element14 = dom.childAt(fragment, [28]);
+            var morphs = new Array(33);
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 2, 2);
             morphs[1] = dom.createMorphAt(element1, 1, 1);
             morphs[2] = dom.createMorphAt(element1, 3, 3);
@@ -5582,12 +5645,19 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             morphs[20] = dom.createMorphAt(element10, 4, 4);
             morphs[21] = dom.createMorphAt(element11, 2, 2);
             morphs[22] = dom.createMorphAt(element11, 4, 4);
-            morphs[23] = dom.createMorphAt(dom.childAt(fragment, [24]), 2, 2);
-            morphs[24] = dom.createMorphAt(dom.childAt(fragment, [26]), 2, 2);
-            morphs[25] = dom.createMorphAt(dom.childAt(fragment, [28]), 2, 2);
+            morphs[23] = dom.createMorphAt(element12, 2, 2);
+            morphs[24] = dom.createMorphAt(element12, 4, 4);
+            morphs[25] = dom.createMorphAt(element13, 2, 2);
+            morphs[26] = dom.createMorphAt(element13, 4, 4);
+            morphs[27] = dom.createMorphAt(element14, 2, 2);
+            morphs[28] = dom.createMorphAt(element14, 4, 4);
+            morphs[29] = dom.createMorphAt(dom.childAt(fragment, [30]), 2, 2);
+            morphs[30] = dom.createMorphAt(dom.childAt(fragment, [32]), 2, 2);
+            morphs[31] = dom.createMorphAt(dom.childAt(fragment, [34]), 2, 2);
+            morphs[32] = dom.createMorphAt(dom.childAt(fragment, [36]), 2, 2);
             return morphs;
           },
-          statements: [["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [6, 59], [6, 66]]]]], [], []], "field", "is_suggestable"], ["loc", [null, [6, 32], [6, 91]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [7, 51], [7, 58]]]]], [], []], "field", "sncf_is_enabled"], ["loc", [null, [7, 24], [7, 84]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [7, 114], [7, 121]]]]], [], []], "field", "sncf_id"], ["loc", [null, [7, 85], [7, 139]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [8, 53], [8, 60]]]]], [], []], "field", "idtgv_is_enabled"], ["loc", [null, [8, 26], [8, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [8, 117], [8, 124]]]]], [], []], "field", "idtgv_id"], ["loc", [null, [8, 88], [8, 143]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [9, 50], [9, 57]]]]], [], []], "field", "db_is_enabled"], ["loc", [null, [9, 23], [9, 81]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [9, 111], [9, 118]]]]], [], []], "field", "db_id"], ["loc", [null, [9, 82], [9, 134]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [10, 54], [10, 61]]]]], [], []], "field", "busbud_is_enabled"], ["loc", [null, [10, 27], [10, 89]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [10, 119], [10, 126]]]]], [], []], "field", "busbud_id"], ["loc", [null, [10, 90], [10, 146]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [11, 55], [11, 62]]]]], [], []], "field", "flixbus_is_enabled"], ["loc", [null, [11, 28], [11, 91]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [11, 121], [11, 128]]]]], [], []], "field", "flixbus_id"], ["loc", [null, [11, 92], [11, 149]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [12, 53], [12, 60]]]]], [], []], "field", "ouigo_is_enabled"], ["loc", [null, [12, 26], [12, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [12, 117], [12, 124]]]]], [], []], "field", "ouigo_id"], ["loc", [null, [12, 88], [12, 143]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [13, 58], [13, 65]]]]], [], []], "field", "trenitalia_is_enabled"], ["loc", [null, [13, 31], [13, 97]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [13, 127], [13, 134]]]]], [], []], "field", "trenitalia_id"], ["loc", [null, [13, 98], [13, 158]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [14, 51], [14, 58]]]]], [], []], "field", "ntv_is_enabled"], ["loc", [null, [14, 24], [14, 83]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [14, 113], [14, 120]]]]], [], []], "field", "ntv_id"], ["loc", [null, [14, 84], [14, 137]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [15, 51], [15, 58]]]]], [], []], "field", "hkx_is_enabled"], ["loc", [null, [15, 24], [15, 83]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [15, 113], [15, 120]]]]], [], []], "field", "hkx_id"], ["loc", [null, [15, 84], [15, 137]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [16, 53], [16, 60]]]]], [], []], "field", "renfe_is_enabled"], ["loc", [null, [16, 26], [16, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [16, 117], [16, 124]]]]], [], []], "field", "renfe_id"], ["loc", [null, [16, 88], [16, 143]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [17, 52], [17, 59]]]]], [], []], "field", "atoc_is_enabled"], ["loc", [null, [17, 25], [17, 85]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [17, 115], [17, 122]]]]], [], []], "field", "atoc_id"], ["loc", [null, [17, 86], [17, 140]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [18, 53], [18, 60]]]]], [], []], "field", "uic"], ["loc", [null, [18, 24], [18, 74]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [19, 58], [19, 65]]]]], [], []], "field", "sncf_tvs_id"], ["loc", [null, [19, 29], [19, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [20, 54], [20, 61]]]]], [], []], "field", "uic8_sncf"], ["loc", [null, [20, 25], [20, 81]]]]],
+          statements: [["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [6, 59], [6, 66]]]]], [], []], "field", "is_suggestable"], ["loc", [null, [6, 32], [6, 91]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [7, 51], [7, 58]]]]], [], []], "field", "sncf_is_enabled"], ["loc", [null, [7, 24], [7, 84]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [7, 114], [7, 121]]]]], [], []], "field", "sncf_id"], ["loc", [null, [7, 85], [7, 139]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [8, 53], [8, 60]]]]], [], []], "field", "idtgv_is_enabled"], ["loc", [null, [8, 26], [8, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [8, 117], [8, 124]]]]], [], []], "field", "idtgv_id"], ["loc", [null, [8, 88], [8, 143]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [9, 50], [9, 57]]]]], [], []], "field", "db_is_enabled"], ["loc", [null, [9, 23], [9, 81]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [9, 111], [9, 118]]]]], [], []], "field", "db_id"], ["loc", [null, [9, 82], [9, 134]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [10, 54], [10, 61]]]]], [], []], "field", "busbud_is_enabled"], ["loc", [null, [10, 27], [10, 89]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [10, 119], [10, 126]]]]], [], []], "field", "busbud_id"], ["loc", [null, [10, 90], [10, 146]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [11, 60], [11, 67]]]]], [], []], "field", "distribusion_is_enabled"], ["loc", [null, [11, 33], [11, 101]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [11, 131], [11, 138]]]]], [], []], "field", "distribusion_id"], ["loc", [null, [11, 102], [11, 164]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [12, 55], [12, 62]]]]], [], []], "field", "flixbus_is_enabled"], ["loc", [null, [12, 28], [12, 91]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [12, 121], [12, 128]]]]], [], []], "field", "flixbus_id"], ["loc", [null, [12, 92], [12, 149]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [13, 59], [13, 66]]]]], [], []], "field", "leoexpress_is_enabled"], ["loc", [null, [13, 32], [13, 98]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [13, 128], [13, 135]]]]], [], []], "field", "leoexpress_id"], ["loc", [null, [13, 99], [13, 159]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [14, 53], [14, 60]]]]], [], []], "field", "ouigo_is_enabled"], ["loc", [null, [14, 26], [14, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [14, 117], [14, 124]]]]], [], []], "field", "ouigo_id"], ["loc", [null, [14, 88], [14, 143]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [15, 58], [15, 65]]]]], [], []], "field", "trenitalia_is_enabled"], ["loc", [null, [15, 31], [15, 97]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [15, 127], [15, 134]]]]], [], []], "field", "trenitalia_id"], ["loc", [null, [15, 98], [15, 158]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [16, 51], [16, 58]]]]], [], []], "field", "ntv_is_enabled"], ["loc", [null, [16, 24], [16, 83]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [16, 113], [16, 120]]]]], [], []], "field", "ntv_id"], ["loc", [null, [16, 84], [16, 137]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [17, 51], [17, 58]]]]], [], []], "field", "hkx_is_enabled"], ["loc", [null, [17, 24], [17, 83]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [17, 113], [17, 120]]]]], [], []], "field", "hkx_id"], ["loc", [null, [17, 84], [17, 137]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [18, 53], [18, 60]]]]], [], []], "field", "renfe_is_enabled"], ["loc", [null, [18, 26], [18, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [18, 117], [18, 124]]]]], [], []], "field", "renfe_id"], ["loc", [null, [18, 88], [18, 143]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [19, 52], [19, 59]]]]], [], []], "field", "atoc_is_enabled"], ["loc", [null, [19, 25], [19, 85]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [19, 115], [19, 122]]]]], [], []], "field", "atoc_id"], ["loc", [null, [19, 86], [19, 140]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [20, 56], [20, 63]]]]], [], []], "field", "benerail_is_enabled"], ["loc", [null, [20, 29], [20, 93]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [20, 123], [20, 130]]]]], [], []], "field", "benerail_id"], ["loc", [null, [20, 94], [20, 152]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [21, 53], [21, 60]]]]], [], []], "field", "uic"], ["loc", [null, [21, 24], [21, 74]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [22, 58], [22, 65]]]]], [], []], "field", "sncf_tvs_id"], ["loc", [null, [22, 29], [22, 87]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [23, 65], [23, 72]]]]], [], []], "field", "trenitalia_rtvt_id"], ["loc", [null, [23, 36], [23, 101]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [24, 54], [24, 61]]]]], [], []], "field", "uic8_sncf"], ["loc", [null, [24, 25], [24, 81]]]]],
           locals: [],
           templates: []
         };
@@ -5600,11 +5670,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 23,
+                "line": 27,
                 "column": 0
               },
               "end": {
-                "line": 36,
+                "line": 40,
                 "column": 0
               }
             },
@@ -5778,7 +5848,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             morphs[11] = dom.createMorphAt(dom.childAt(fragment, [22]), 2, 2);
             return morphs;
           },
-          statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [24, 54], [24, 61]]]]], [], []], "field", "slug"], ["loc", [null, [24, 25], [24, 76]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [25, 59], [25, 66]]]]], [], []], "field", "longitude"], ["loc", [null, [25, 30], [25, 86]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [26, 58], [26, 65]]]]], [], []], "field", "latitude"], ["loc", [null, [26, 29], [26, 84]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [27, 57], [27, 64]]]]], [], []], "field", "country"], ["loc", [null, [27, 28], [27, 82]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [28, 58], [28, 65]]]]], [], []], "field", "time_zone"], ["loc", [null, [28, 29], [28, 85]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [29, 61], [29, 68]]]]], [], []], "field", "is_main_station"], ["loc", [null, [29, 34], [29, 94]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [30, 56], [30, 63]]]]], [], []], "field", "is_city"], ["loc", [null, [30, 29], [30, 81]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [31, 59], [31, 66]]]]], [], []], "field", "is_airport"], ["loc", [null, [31, 32], [31, 87]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [32, 61], [32, 68]]]]], [], []], "field", "country_hint"], ["loc", [null, [32, 34], [32, 91]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [33, 66], [33, 73]]]]], [], []], "field", "main_station_hint"], ["loc", [null, [33, 39], [33, 101]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [34, 73], [34, 80]]]]], [], []], "field", "sncf_self_service_machine"], ["loc", [null, [34, 46], [34, 116]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [35, 58], [35, 65]]]]], [], []], "field", "same_as"], ["loc", [null, [35, 29], [35, 83]]]]],
+          statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [28, 54], [28, 61]]]]], [], []], "field", "slug"], ["loc", [null, [28, 25], [28, 76]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [29, 59], [29, 66]]]]], [], []], "field", "longitude"], ["loc", [null, [29, 30], [29, 86]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [30, 58], [30, 65]]]]], [], []], "field", "latitude"], ["loc", [null, [30, 29], [30, 84]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [31, 57], [31, 64]]]]], [], []], "field", "country"], ["loc", [null, [31, 28], [31, 82]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [32, 58], [32, 65]]]]], [], []], "field", "time_zone"], ["loc", [null, [32, 29], [32, 85]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [33, 61], [33, 68]]]]], [], []], "field", "is_main_station"], ["loc", [null, [33, 34], [33, 94]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [34, 56], [34, 63]]]]], [], []], "field", "is_city"], ["loc", [null, [34, 29], [34, 81]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [35, 59], [35, 66]]]]], [], []], "field", "is_airport"], ["loc", [null, [35, 32], [35, 87]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [36, 61], [36, 68]]]]], [], []], "field", "country_hint"], ["loc", [null, [36, 34], [36, 91]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [37, 66], [37, 73]]]]], [], []], "field", "main_station_hint"], ["loc", [null, [37, 39], [37, 101]]]], ["inline", "station-checkbox", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [38, 73], [38, 80]]]]], [], []], "field", "sncf_self_service_machine"], ["loc", [null, [38, 46], [38, 116]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [39, 58], [39, 65]]]]], [], []], "field", "same_as"], ["loc", [null, [39, 29], [39, 83]]]]],
           locals: [],
           templates: []
         };
@@ -5792,11 +5862,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 39,
+                  "line": 43,
                   "column": 0
                 },
                 "end": {
-                  "line": 41,
+                  "line": 45,
                   "column": 0
                 }
               },
@@ -5829,7 +5899,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               morphs[1] = dom.createMorphAt(element0, 2, 2);
               return morphs;
             },
-            statements: [["content", "locale", ["loc", [null, [40, 13], [40, 23]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [40, 60], [40, 67]]]]], [], []], "field", ["subexpr", "@mut", [["get", "locale", ["loc", [null, [40, 74], [40, 80]]]]], [], []]], ["loc", [null, [40, 31], [40, 82]]]]],
+            statements: [["content", "locale", ["loc", [null, [44, 13], [44, 23]]]], ["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [44, 60], [44, 67]]]]], [], []], "field", ["subexpr", "@mut", [["get", "locale", ["loc", [null, [44, 74], [44, 80]]]]], [], []]], ["loc", [null, [44, 31], [44, 82]]]]],
             locals: ["locale"],
             templates: []
           };
@@ -5841,11 +5911,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 38,
+                "line": 42,
                 "column": 0
               },
               "end": {
-                "line": 42,
+                "line": 46,
                 "column": 0
               }
             },
@@ -5868,7 +5938,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "each", [["get", "languages", ["loc", [null, [39, 8], [39, 17]]]]], [], 0, null, ["loc", [null, [39, 0], [41, 9]]]]],
+          statements: [["block", "each", [["get", "languages", ["loc", [null, [43, 8], [43, 17]]]]], [], 0, null, ["loc", [null, [43, 0], [45, 9]]]]],
           locals: [],
           templates: [child0]
         };
@@ -5883,11 +5953,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 46,
+                    "line": 50,
                     "column": 27
                   },
                   "end": {
-                    "line": 46,
+                    "line": 50,
                     "column": 87
                   }
                 },
@@ -5916,7 +5986,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 dom.insertBoundary(fragment, 0);
                 return morphs;
               },
-              statements: [["content", "parent.name", ["loc", [null, [46, 56], [46, 71]]]], ["content", "parent.id", ["loc", [null, [46, 73], [46, 86]]]]],
+              statements: [["content", "parent.name", ["loc", [null, [50, 56], [50, 71]]]], ["content", "parent.id", ["loc", [null, [50, 73], [50, 86]]]]],
               locals: [],
               templates: []
             };
@@ -5928,11 +5998,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 45,
+                  "line": 49,
                   "column": 0
                 },
                 "end": {
-                  "line": 47,
+                  "line": 51,
                   "column": 0
                 }
               },
@@ -5963,7 +6033,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 2, 2);
               return morphs;
             },
-            statements: [["block", "link-to", ["station", ["get", "parent", ["loc", [null, [46, 48], [46, 54]]]]], [], 0, null, ["loc", [null, [46, 27], [46, 99]]]]],
+            statements: [["block", "link-to", ["station", ["get", "parent", ["loc", [null, [50, 48], [50, 54]]]]], [], 0, null, ["loc", [null, [50, 27], [50, 99]]]]],
             locals: [],
             templates: [child0]
           };
@@ -5978,11 +6048,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                   "loc": {
                     "source": null,
                     "start": {
-                      "line": 52,
+                      "line": 56,
                       "column": 8
                     },
                     "end": {
-                      "line": 52,
+                      "line": 56,
                       "column": 65
                     }
                   },
@@ -6011,7 +6081,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                   dom.insertBoundary(fragment, 0);
                   return morphs;
                 },
-                statements: [["content", "child.name", ["loc", [null, [52, 36], [52, 50]]]], ["content", "child.id", ["loc", [null, [52, 52], [52, 64]]]]],
+                statements: [["content", "child.name", ["loc", [null, [56, 36], [56, 50]]]], ["content", "child.id", ["loc", [null, [56, 52], [56, 64]]]]],
                 locals: [],
                 templates: []
               };
@@ -6023,11 +6093,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 51,
+                    "line": 55,
                     "column": 4
                   },
                   "end": {
-                    "line": 53,
+                    "line": 57,
                     "column": 4
                   }
                 },
@@ -6054,7 +6124,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
                 morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
                 return morphs;
               },
-              statements: [["block", "link-to", ["station", ["get", "child", ["loc", [null, [52, 29], [52, 34]]]]], [], 0, null, ["loc", [null, [52, 8], [52, 77]]]]],
+              statements: [["block", "link-to", ["station", ["get", "child", ["loc", [null, [56, 29], [56, 34]]]]], [], 0, null, ["loc", [null, [56, 8], [56, 77]]]]],
               locals: ["child"],
               templates: [child0]
             };
@@ -6066,11 +6136,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 48,
+                  "line": 52,
                   "column": 0
                 },
                 "end": {
-                  "line": 56,
+                  "line": 60,
                   "column": 0
                 }
               },
@@ -6109,7 +6179,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0, 2]), 1, 1);
               return morphs;
             },
-            statements: [["block", "each", [["get", "children", ["loc", [null, [51, 12], [51, 20]]]]], [], 0, null, ["loc", [null, [51, 4], [53, 13]]]]],
+            statements: [["block", "each", [["get", "children", ["loc", [null, [55, 12], [55, 20]]]]], [], 0, null, ["loc", [null, [55, 4], [57, 13]]]]],
             locals: [],
             templates: [child0]
           };
@@ -6121,11 +6191,11 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             "loc": {
               "source": null,
               "start": {
-                "line": 44,
+                "line": 48,
                 "column": 0
               },
               "end": {
-                "line": 57,
+                "line": 61,
                 "column": 0
               }
             },
@@ -6151,7 +6221,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             dom.insertBoundary(fragment, null);
             return morphs;
           },
-          statements: [["block", "if", [["get", "parent", ["loc", [null, [45, 6], [45, 12]]]]], [], 0, null, ["loc", [null, [45, 0], [47, 7]]]], ["block", "if", [["get", "children", ["loc", [null, [48, 6], [48, 14]]]]], [], 1, null, ["loc", [null, [48, 0], [56, 7]]]]],
+          statements: [["block", "if", [["get", "parent", ["loc", [null, [49, 6], [49, 12]]]]], [], 0, null, ["loc", [null, [49, 0], [51, 7]]]], ["block", "if", [["get", "children", ["loc", [null, [52, 6], [52, 14]]]]], [], 1, null, ["loc", [null, [52, 0], [60, 7]]]]],
           locals: [],
           templates: [child0, child1]
         };
@@ -6167,7 +6237,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
               "column": 0
             },
             "end": {
-              "line": 58,
+              "line": 62,
               "column": 0
             }
           },
@@ -6205,7 +6275,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["block", "bs-accordion-item", [], ["value", "1", "title", "Carriers"], 0, null, ["loc", [null, [5, 0], [21, 22]]]], ["block", "bs-accordion-item", [], ["value", "2", "title", "Properties"], 1, null, ["loc", [null, [23, 0], [36, 22]]]], ["block", "bs-accordion-item", [], ["value", "3", "title", "Translations"], 2, null, ["loc", [null, [38, 0], [42, 22]]]], ["block", "bs-accordion-item", [], ["value", "4", "title", "Parent and children"], 3, null, ["loc", [null, [44, 0], [57, 22]]]]],
+        statements: [["block", "bs-accordion-item", [], ["value", "1", "title", "Carriers"], 0, null, ["loc", [null, [5, 0], [25, 22]]]], ["block", "bs-accordion-item", [], ["value", "2", "title", "Properties"], 1, null, ["loc", [null, [27, 0], [40, 22]]]], ["block", "bs-accordion-item", [], ["value", "3", "title", "Translations"], 2, null, ["loc", [null, [42, 0], [46, 22]]]], ["block", "bs-accordion-item", [], ["value", "4", "title", "Parent and children"], 3, null, ["loc", [null, [48, 0], [61, 22]]]]],
         locals: [],
         templates: [child0, child1, child2, child3]
       };
@@ -6224,7 +6294,7 @@ define("stations-editor/templates/components/station-details", ["exports"], func
             "column": 0
           },
           "end": {
-            "line": 59,
+            "line": 63,
             "column": 0
           }
         },
@@ -6267,15 +6337,15 @@ define("stations-editor/templates/components/station-details", ["exports"], func
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element12 = dom.childAt(fragment, [0, 1]);
+        var element15 = dom.childAt(fragment, [0, 1]);
         var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(element12, 2, 2);
-        morphs[1] = dom.createMorphAt(element12, 4, 4);
+        morphs[0] = dom.createMorphAt(element15, 2, 2);
+        morphs[1] = dom.createMorphAt(element15, 4, 4);
         morphs[2] = dom.createMorphAt(fragment, 2, 2, contextualElement);
         dom.insertBoundary(fragment, null);
         return morphs;
       },
-      statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [2, 90], [2, 97]]]]], [], []], "field", "name"], ["loc", [null, [2, 61], [2, 112]]]], ["content", "station.id", ["loc", [null, [2, 114], [2, 128]]]], ["block", "bs-accordion", [], ["selected", "1"], 0, null, ["loc", [null, [4, 0], [58, 17]]]]],
+      statements: [["inline", "station-text-input", [], ["station", ["subexpr", "@mut", [["get", "station", ["loc", [null, [2, 90], [2, 97]]]]], [], []], "field", "name"], ["loc", [null, [2, 61], [2, 112]]]], ["content", "station.id", ["loc", [null, [2, 114], [2, 128]]]], ["block", "bs-accordion", [], ["selected", "1"], 0, null, ["loc", [null, [4, 0], [62, 17]]]]],
       locals: [],
       templates: [child0]
     };
@@ -6866,8 +6936,8 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("stations-editor/app")["default"].create({"name":"stations-editor","version":"0.0.0+63b6e6cc"});
+  require("stations-editor/app")["default"].create({"name":"stations-editor","version":"0.0.0+ab2d051c"});
 }
 
 /* jshint ignore:end */
-//# sourceMappingURL=stations-editor-ac8195362bee12efa4842bd49e0acfb9.map
+//# sourceMappingURL=stations-editor-bd6e0c887915d9a5b3e6f2a902169bfa.map
