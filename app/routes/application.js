@@ -7,6 +7,9 @@ export default Route.extend({
     displayStation(station) {
       this.transitionTo('station', station);
     },
+    auth() {
+      this.transitionTo('auth');
+    },
     logOut() {
       this.get('user').deleteSession();
       this.transitionTo('index');

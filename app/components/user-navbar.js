@@ -10,6 +10,9 @@ export default Component.extend({
     downloadCSV() {
       this.sendAction('downloadCSV');
     },
+    auth() {
+      this.sendAction('auth');
+    },
     logOut() {
       this.sendAction('logOut');
     }

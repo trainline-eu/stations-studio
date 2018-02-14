@@ -6,7 +6,11 @@ export default Route.extend({
   user: service(),
 
   beforeModel() {
-    this.transitionTo('station', 4916);
+    this.get("user").restoreSession().then((loggedIn) => {
+      if(loggedIn) {
+        this.transitionTo('station', 4916);
+      }
+    });
   },
 
   model() {

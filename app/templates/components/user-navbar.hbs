@@ -1,12 +1,14 @@
+<ul class="nav navbar-nav">
+<li class="navbar-form station-autocomplete">
+  {{station-autocomplete displayStation='displayStation'}}
+</li>
+<li><a {{action 'downloadCSV'}}> <i class="fa fa-fw fa-save"></i> Save locally </a></li>
 {{#if user.loggedIn}}
-  <ul class="nav navbar-nav">
-    <li class="navbar-form station-autocomplete">
-      {{station-autocomplete displayStation='displayStation'}}
-    </li>
-    <li><a {{action 'downloadCSV'}}> <i class="fa fa-fw fa-save"></i> Save locally </a></li>
     <li>{{#link-to "changelog"}}<i class="fa fa-fw fa-files-o"></i> Changelog{{/link-to}}</li>
-  </ul>
-  <ul class="nav navbar-nav navbar-right" style="margin-right: -15px;">
+{{/if}}
+</ul>
+<ul class="nav navbar-nav navbar-right" style="margin-right: -15px;">
+{{#if user.loggedIn}}
       <li class="navbar-text">
         <img src="{{user.user.avatar_url}}" style="width: 32px;  border-radius: 16px; margin: -10px 2px" /> {{user.user.login}} {{hey}}
       </li>
@@ -19,5 +21,9 @@
       <li>
         <a {{action "logOut"}} id="logout-link"><i class="fa fa-fw fa-sign-out"></i> Log out from CTSS</a>
       </li>
-  </ul>
+{{else}}
+    <li>
+        <a {{action "auth"}} id="login-link"><i class="fa fa-fw fa-sign-in"></i> Log in to CTSS</a>
+    </li>
 {{/if}}
+</ul>
