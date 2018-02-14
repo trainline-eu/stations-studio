@@ -7,12 +7,6 @@ export default Route.extend({
   stations: service(),
   user: service(),
 
-  beforeModel() {
-    if(!this.get("user.loggedIn")) {
-      this.transitionTo('/');
-    }
-  },
-
   model(params) {
     return this.get('stations').load().then(() => {
       return this.get('stations').findById(params.id);
