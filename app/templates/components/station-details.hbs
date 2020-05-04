@@ -50,7 +50,14 @@
 {{#bs-accordion-item value="4" title="Parent and children"}}
 {{#if parent}}
 <label><span>Parent</span> {{#link-to "station" parent}}{{parent.name}} ({{parent.id}}){{/link-to}}</label>
+{{else}}
+<label><span>Parent Station ID</span>
+    {{station-text-input station=station field="parent_station_id"}}
+</label>
 {{/if}}
+
+<hr>
+
 {{#if children}}
 <label><span>Children</span>
   <ul>
